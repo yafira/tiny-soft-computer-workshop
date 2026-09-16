@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>setup guide — tiny soft computer</title>
+<meta name="description" content="Step-by-step setup instructions for building your own tiny soft computer.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">tiny soft computer</a>
+    <ul>
+      <li><a href="index.html">home</a></li>
+      <li><a href="setup.html" aria-current="page">setup guide</a></li>
+      <li><a href="code.html">the code</a></li>
+      <li><a href="about.html">about</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">setup guide</p>
+    <h1>get your board talking to your display</h1>
+    <p class="lede">
+      what you'll need: an Adafruit RP2040 Feather ThinkInk, a 2.13" 212×104
+      flexible monochrome eInk display (ILI0373 chipset), a USB-C cable,
+      and a computer to program from.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>1. install CircuitPython</h2>
+    <p class="note">
+      before you start: disconnect the eInk display from the Feather.
+      having it connected can interfere with the board entering
+      bootloader mode. reconnect it once CircuitPython is installed.
+    </p>
+    <ol class="steps">
+      <li>unplug the board completely.</li>
+      <li>press and hold the <strong>BOOTSEL</strong> button.</li>
+      <li>while still holding it, plug in the USB-C cable.</li>
+      <li>wait a second or two, then release the button. this "boot on start" method is more reliable than double-pressing reset while already powered on.</li>
+      <li>a drive named <code>RPI-RP2</code> should appear.</li>
+      <li>go to <a href="https://circuitpython.org">circuitpython.org</a> and search for your exact board: "Adafruit Feather RP2040 ThinkInk". don't pick a generic RP2040 file, other variants have different pin mappings.</li>
+      <li>choose the stable release (10.x), and download the single <code>.uf2</code> file.</li>
+      <li>drag that file onto the <code>RPI-RP2</code> drive.</li>
+      <li>the board restarts automatically. the drive is now named <code>CIRCUITPY</code>, that means CircuitPython is installed.</li>
+      <li>now reconnect the eInk display.</li>
+    </ol>
+    <p class="note">
+      if the <code>RPI-RP2</code> drive never appears: confirm the display
+      is disconnected, try a different USB-C cable (some are charge-only),
+      try a different port, or unplug fully and retry the BOOTSEL sequence.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>2. add the required libraries</h2>
+    <p>
+      from the <a href="https://circuitpython.org/libraries">CircuitPython
+      Library Bundle</a>, matching your exact CircuitPython version, copy
+      these into a <code>lib</code> folder on your CIRCUITPY drive:
+    </p>
+    <ul class="plain">
+      <li><code>adafruit_il0373.mpy</code></li>
+      <li><code>adafruit_display_text</code> (folder)</li>
+    </ul>
+    <p class="note">
+      names must be exact, underscores not hyphens. a mismatched name is
+      the most common reason a library fails to import.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>3. add the code</h2>
+    <ol class="steps">
+      <li>copy <a href="code.html">the code</a> onto your CIRCUITPY drive as <code>code.py</code>.</li>
+      <li>the board should auto-run it. if not, press reset once.</li>
+      <li>watch the serial console as it runs, it prints its progress at each step.</li>
+      <li>wait for "refresh complete" before judging what's on screen. e-ink flickers through intermediate frames mid-refresh, this can look like smudging and is completely normal.</li>
+    </ol>
+  </section>
+
+  <div class="divider">✿</div>
+
+  <section class="block">
+    <h2>troubleshooting notes</h2>
+    <p>real issues we hit while testing, and what fixed them.</p>
+
+    <div class="reference">
+      <h3>code runs with no error, but nothing shows</h3>
+      <p>
+        bitmaps must be created with <code>value_count=2</code>, not
+        <code>1</code>. using <code>1</code> technically creates a
+        zero-bit bitmap that can silently fail to render, even though
+        the code runs without error. this was the root cause of a lot
+        of confusing "it's not working" testing, not faulty hardware.
+      </p>
+    </div>
+
+    <div class="reference">
+      <h3>screen looks blurry or smudged</h3>
+      <p>
+        e-ink flickers through several frames during a refresh. don't
+        judge the screen until the code confirms the refresh is
+        complete. checking mid-refresh looks exactly like a real
+        problem, and usually isn't one.
+      </p>
+    </div>
+
+    <div class="reference">
+      <h3>the RPI-RP2 drive won't appear</h3>
+      <p>
+        disconnect the eInk display before entering bootloader mode.
+        the display connected during this step can prevent the drive
+        from showing up at all.
+      </p>
+    </div>
+
+    <div class="reference">
+      <h3>SyntaxError referencing &lt;stdin&gt;</h3>
+      <p>
+        not a code problem. usually a stray keypress sent into the REPL
+        prompt directly. press Ctrl+D to reload, or press the physical
+        reset button, and try again.
+      </p>
+    </div>
+
+    <div class="reference">
+      <h3>a display seems consistently faulty</h3>
+      <p>
+        before assuming hardware failure: re-test with the latest known-good
+        code first. an earlier bug in our own script caused some units to
+        look broken when they weren't. if it's still inconsistent after
+        that, isolate by swapping the display to a different board, and
+        the board to a different display, whichever component the problem
+        follows is the actual fault.
+      </p>
+    </div>
+  </section>
+
+  <section class="block">
+    <p>
+      this display holds its image with no power needed. once it shows
+      text, you can even unplug it and the image will remain.
+    </p>
+    <p class="note">
+      this is a living document. it gets updated as we test more units
+      and find new issues, so it stays accurate for whoever builds one
+      after us.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
+    and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
+  </div>
+</footer>
+
+</body>
+</html>
