@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  active: 'home' | 'setup' | 'code' | 'about';
+}
+
+const { title, description, active } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content={description}>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="/">tiny soft computer</a>
+    <ul>
+      <li><a href="/" aria-current={active === 'home' ? 'page' : undefined}>home</a></li>
+      <li><a href="/setup" aria-current={active === 'setup' ? 'page' : undefined}>setup guide</a></li>
+      <li><a href="/code" aria-current={active === 'code' ? 'page' : undefined}>the code</a></li>
+      <li><a href="/about" aria-current={active === 'about' ? 'page' : undefined}>about</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <slot />
+</main>
+
+<footer>
+  <div class="wrap">
+    tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
+    and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,27 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>about — tiny soft computer</title>
-<meta name="description" content="The pedagogy and references behind the tiny soft computer workshop.">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<nav class="site-nav">
-  <div class="wrap">
-    <a class="brand" href="index.html">tiny soft computer</a>
-    <ul>
-      <li><a href="index.html">home</a></li>
-      <li><a href="setup.html">setup guide</a></li>
-      <li><a href="code.html">the code</a></li>
-      <li><a href="about.html" aria-current="page">about</a></li>
-    </ul>
-  </div>
-</nav>
-
-<main class="wrap">
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="about — tiny soft computer"
+  description="The pedagogy and references behind the tiny soft computer workshop."
+  active="about"
+>
 
   <section class="hero" style="padding-top: 2.5rem;">
     <p class="kicker">about the workshop</p>
@@ -115,14 +99,4 @@
     </p>
   </section>
 
-</main>
-
-<footer>
-  <div class="wrap">
-    tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
-    and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
-  </div>
-</footer>
-
-</body>
-</html>
+</Layout>
