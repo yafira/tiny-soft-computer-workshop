@@ -1,27 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tiny soft computer — a workshop by alannabean x electrocute</title>
-<meta name="description" content="A 3-hour hands-on workshop on making and teaching soft electronics. Build your own tiny soft computer.">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<nav class="site-nav">
-  <div class="wrap">
-    <a class="brand" href="index.html">tiny soft computer</a>
-    <ul>
-      <li><a href="index.html" aria-current="page">home</a></li>
-      <li><a href="setup.html">setup guide</a></li>
-      <li><a href="code.html">the code</a></li>
-      <li><a href="about.html">about</a></li>
-    </ul>
-  </div>
-</nav>
-
-<main class="wrap">
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="tiny soft computer — a workshop by alannabean x electrocute"
+  description="A 3-hour hands-on workshop on making and teaching soft electronics. Build your own tiny soft computer."
+  active="home"
+>
 
   <section class="hero">
     <p class="kicker">alannabean × electrocute — a workshop</p>
@@ -38,7 +22,7 @@
     </div>
 
     <p>
-      <a class="btn" href="setup.html">start the setup guide →</a>
+      <a class="btn" href="/setup">start the setup guide →</a>
     </p>
   </section>
 
@@ -77,20 +61,11 @@
     <p>
       this site is a working record of the process, kept in the open so
       it can be handed to attendees and educators after the workshop.
-      the <a href="setup.html">setup guide</a> and <a href="code.html">code</a>
+      the <a href="/setup">setup guide</a> and <a href="/code">code</a>
       reflect real testing, including the mistakes and fixes along the way.
     </p>
   </section>
 
-</main>
+  <script src="/script.js" is:inline></script>
 
-<footer>
-  <div class="wrap">
-    tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
-    and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
-  </div>
-</footer>
-
-<script src="script.js"></script>
-</body>
-</html>
+</Layout>

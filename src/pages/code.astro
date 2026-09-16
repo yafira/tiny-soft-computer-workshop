@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const codeContent = fs.readFileSync(
+  path.resolve('./public/tiny_soft_computer_code.py'),
+  'utf-8'
+);
+---
+<Layout
+  title="the code — tiny soft computer"
+  description="The full working code.py for the tiny soft computer, ready to copy and tweak."
+  active="code"
+>
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">code.py</p>
+    <h1>press a button, get something soft</h1>
+    <p class="lede">
+      this is the full working code, unedited. copy it onto your
+      CIRCUITPY drive as <code>code.py</code>. the reminders list near
+      the top is the part you're meant to change, everything else can
+      stay as it is.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>what to edit</h2>
+    <p>
+      look for the block marked <code>EDIT ME</code>. it's a plain list
+      of short phrases. add your own, remove ones that don't feel right,
+      reorder them, that's the whole interface. keep each one short,
+      the screen is small.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>the full code</h2>
+    <pre><code>{codeContent}</code></pre>
+    <p>
+      <a class="btn" href="/tiny_soft_computer_code.py" download>download code.py</a>
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>libraries this needs</h2>
+    <p>from the CircuitPython Library Bundle, matching your board's version:</p>
+    <ul class="plain">
+      <li><code>adafruit_il0373.mpy</code></li>
+      <li><code>adafruit_display_text</code> (folder)</li>
+    </ul>
+    <p>full install steps are on the <a href="/setup">setup guide</a>.</p>
+  </section>
+
+</Layout>
