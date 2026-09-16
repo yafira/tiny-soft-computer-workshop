@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>the code — tiny soft computer</title>
+<meta name="description" content="The full working code.py for the tiny soft computer, ready to copy and tweak.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">tiny soft computer</a>
+    <ul>
+      <li><a href="index.html">home</a></li>
+      <li><a href="setup.html">setup guide</a></li>
+      <li><a href="code.html" aria-current="page">the code</a></li>
+      <li><a href="about.html">about</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">code.py</p>
+    <h1>press a button, get something soft</h1>
+    <p class="lede">
+      this is the full working code, unedited. copy it onto your
+      CIRCUITPY drive as <code>code.py</code>. the reminders list near
+      the top is the part you're meant to change, everything else can
+      stay as it is.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>what to edit</h2>
+    <p>
+      look for the block marked <code>EDIT ME</code>. it's a plain list
+      of short phrases. add your own, remove ones that don't feel right,
+      reorder them, that's the whole interface. keep each one short,
+      the screen is small.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>the full code</h2>
+    <pre><code># tiny soft computer
+# press the button for a small kind reminder
+# Feather RP2040 ThinkInk + 2.13&quot; 212x104 Flexible Monochrome eInk (IL0373)
+
+import time
+import random
+import board
+import busio
+import displayio
+import terminalio
+import digitalio
+from fourwire import FourWire
+import adafruit_il0373
+from adafruit_display_text import label
+
+# ---------------------------------------------------------------
+# EDIT ME: add, remove, or change any of these reminders freely.
+# keep them short, they need to fit on a small screen.
+# ---------------------------------------------------------------
+reminders = [
+    &quot;you can rest now&quot;,
+    &quot;you are doing enough&quot;,
+    &quot;it&#x27;s okay to slow down&quot;,
+    &quot;you don&#x27;t have to earn rest&quot;,
+    &quot;you are allowed to take up space&quot;,
+    &quot;this moment is enough&quot;,
+    &quot;be gentle with yourself today&quot;,
+    &quot;you are not behind&quot;,
+    &quot;small steps still count&quot;,
+    &quot;you deserve softness too&quot;,
+]
+
+print(&quot;starting up&quot;)
+
+displayio.release_displays()
+
+# button setup, one button to keep the build simple
+button = digitalio.DigitalInOut(board.A0)
+button.direction = digitalio.Direction.INPUT
+button.pull = digitalio.Pull.UP
+
+# auto-detect Feather RP2040 ThinkInk pins
+spi = busio.SPI(board.EPD_SCK, MOSI=board.EPD_MOSI, MISO=None)
+epd_cs = board.EPD_CS
+epd_dc = board.EPD_DC
+epd_reset = board.EPD_RESET
+epd_busy = board.EPD_BUSY
+
+display_bus = FourWire(
+    spi, command=epd_dc, chip_select=epd_cs, reset=epd_reset, baudrate=1000000
+)
+time.sleep(1)
+
+display = adafruit_il0373.IL0373(
+    display_bus,
+    width=212,
+    height=104,
+    rotation=90,
+    busy_pin=epd_busy,
+    black_bits_inverted=False,
+    color_bits_inverted=True,
+    swap_rams=True,
+)
+print(&quot;display ready&quot;)
+
+
+def show_message(message):
+    g = displayio.Group()
+
+    main_bitmap = displayio.Bitmap(display.width, display.height, 2)
+    main_palette = displayio.Palette(2)
+    main_palette[0] = 0xFFFFFF  # background
+    main_palette[1] = 0x000000  # text
+    main_sprite = displayio.TileGrid(main_bitmap, pixel_shader=main_palette)
+    g.append(main_sprite)
+
+    text_area = label.Label(terminalio.FONT, text=message, scale=1, color=0x000000)
+    text_area.anchor_point = (0.5, 0.5)
+    text_area.anchored_position = (display.width // 2, display.height // 2)
+    g.append(text_area)
+
+    display.root_group = g
+    display.refresh()
+    time.sleep(display.time_to_refresh + 5)
+
+
+# intro sequence
+show_message(&quot;tiny soft computer&quot;)
+time.sleep(2)
+show_message(&quot;starting up&quot;)
+time.sleep(1.5)
+show_message(&quot;press the button\nfor a soft reminder&quot;)
+print(&quot;ready, press the button for a reminder&quot;)
+
+# main loop: wait for a button press, then show a random reminder
+while True:
+    if not button.value:  # button pressed
+        message = random.choice(reminders)
+        print(&quot;showing:&quot;, message)
+        show_message(message)
+        time.sleep(1)  # small pause so one press doesn&#x27;t trigger twice
+    time.sleep(0.05)
+</code></pre>
+    <p>
+      <a class="btn" href="tiny_soft_computer_code.py" download>download code.py</a>
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>libraries this needs</h2>
+    <p>from the CircuitPython Library Bundle, matching your board's version:</p>
+    <ul class="plain">
+      <li><code>adafruit_il0373.mpy</code></li>
+      <li><code>adafruit_display_text</code> (folder)</li>
+    </ul>
+    <p>full install steps are on the <a href="setup.html">setup guide</a>.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
+    and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
+  </div>
+</footer>
+
+</body>
+</html>
