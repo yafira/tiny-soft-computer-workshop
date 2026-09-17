@@ -91,6 +91,7 @@ p {
 }
 
 /* nav */
+
 nav.site-nav {
   border-bottom: 1px solid var(--rule);
   padding: 1.1rem 0;
@@ -135,6 +136,7 @@ nav.site-nav a[aria-current="page"] {
 }
 
 /* hero */
+
 .hero {
   padding: 3.5rem 0 2.5rem;
 }
@@ -152,8 +154,9 @@ nav.site-nav a[aria-current="page"] {
 }
 
 /* simulated e-ink screen */
+
 .screen {
-  margin: 2rem 0 2.5rem;
+  margin: 2.5rem 0 2.5rem;
   border: 1px solid var(--ink);
   border-top: 3px solid var(--mustard);
   background: #fdfcf9;
@@ -163,29 +166,103 @@ nav.site-nav a[aria-current="page"] {
   justify-content: center;
   min-height: 6.5rem;
   position: relative;
+  cursor: pointer;
+  overflow: visible;
+  transition: background 0.15s ease;
 }
+
+/* eink label */
 
 .screen::before {
   content: "eink display, live";
   position: absolute;
-  top: -0.65rem;
-  left: 1rem;
+  top: -0.75rem;
+  left: 0.8rem;
+
   background: var(--paper);
-  padding: 0 0.5rem;
-  font-size: 0.72rem;
+  padding: 0 0.45rem;
+
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+
   color: var(--lavender);
+
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* subtle e-ink texture during refresh */
+
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(34, 31, 27, 0.025) 3px
+  );
+
+  transition: opacity 0.15s ease;
+  z-index: 1;
+}
+
+.screen:hover {
+  background: var(--paper-dim);
+}
+
+.screen:active {
+  background: #f7f5ef;
 }
 
 .screen-text {
   font-family: "Departure Mono", "IBM Plex Mono", monospace;
   font-size: 1.1rem;
   letter-spacing: 0.02em;
+  line-height: 1.4;
   text-align: center;
   color: var(--ink);
   white-space: pre-line;
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.2s ease;
+}
+
+/* simulated e-ink refresh */
+
+.screen-text.eink-refresh {
+  opacity: 0.08;
+}
+
+.screen:has(.eink-refresh)::after {
+  opacity: 1;
+}
+
+/* subtle physical-device hint */
+
+.screen::selection,
+.screen-text::selection {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-text {
+    transition: none;
+  }
+
+  .screen::after {
+    transition: none;
+  }
 }
 
 /* section divider */
+
 .divider {
   text-align: center;
   color: var(--rule);
@@ -194,6 +271,7 @@ nav.site-nav a[aria-current="page"] {
 }
 
 /* section blocks */
+
 section.block {
   padding: 2.2rem 0;
   border-bottom: 1px solid var(--rule);
@@ -213,6 +291,7 @@ section.block:last-of-type {
 }
 
 /* reference cards, deliberately flat, not rounded */
+
 .reference {
   border: 1px solid var(--rule);
   border-top: 2px solid var(--lavender);
@@ -232,6 +311,7 @@ section.block:last-of-type {
 }
 
 /* code blocks */
+
 pre {
   background: var(--ink);
   color: #efeae0;
@@ -255,6 +335,7 @@ li code {
 }
 
 /* steps, numbered because they genuinely are a sequence */
+
 ol.steps {
   padding-left: 1.4rem;
 }
@@ -306,7 +387,18 @@ footer {
     gap: 1rem;
     font-size: 0.85rem;
   }
+
   .screen {
     padding: 1.6rem 1rem;
+    margin-top: 2.25rem;
+  }
+
+  .screen::before {
+    left: 0.65rem;
+    font-size: 0.62rem;
+  }
+
+  .screen-text {
+    font-size: 0.95rem;
   }
 }
