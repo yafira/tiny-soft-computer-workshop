@@ -77,6 +77,40 @@ import Layout from '../layouts/Layout.astro';
     <p>real issues we hit while testing, and what fixed them.</p>
 
     <div class="reference">
+      <h3>why the display can't refresh quickly</h3>
+      <p>
+        this isn't a bug, it's physics. e-ink works by physically moving
+        charged ink particles inside each pixel, not by lighting up
+        transistors. that movement takes real time, and it can't be
+        rushed by better code.
+      </p>
+      <p>
+        the manufacturer's own datasheet for this exact panel states it
+        directly: <em>"each update interval time should be minimum at
+        180 seconds"</em> for the panel's rated 5-year, 1,000,000-cycle
+        lifespan to hold. the CircuitPython driver enforces this,
+        attempting a refresh before that window passes raises a
+        <code>RuntimeError: Refresh too soon</code>, on purpose.
+      </p>
+      <p>
+        it's possible to override this in code (a <code>refresh_time</code>
+        parameter exists), but doing so doesn't make the physical ink
+        move any faster, it just lets the code ask again sooner than the
+        panel can actually deliver. the likely result is a ghosted or
+        incomplete image, and real wear on the panel over repeated
+        cycles. we chose not to override it.
+      </p>
+      <p>
+        this is exactly the kind of limitation this workshop asks you to
+        design with, not around. rather than fighting the display's pace,
+        the kit separates <em>acknowledgment</em> (instant, via a small
+        LED) from <em>the reminder itself</em> (slower, on the display's
+        own real timeline). the wait becomes part of what the object
+        means, not a flaw to hide.
+      </p>
+    </div>
+
+    <div class="reference">
       <h3>code runs with no error, but nothing shows</h3>
       <p>
         bitmaps must be created with <code>value_count=2</code>, not
