@@ -79,7 +79,7 @@ displayio.release_displays()
 # BUTTON SETUP
 # one button to keep the build simple
 
-button = digitalio.DigitalInOut(board.A0)
+button = digitalio.DigitalInOut(board.A2)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
