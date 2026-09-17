@@ -1,5 +1,5 @@
 # tiny soft computer
-# press the button for a small kind reminder
+# press the button for a little something
 # Feather RP2040 ThinkInk + 2.13" 212x104 Flexible Monochrome eInk (IL0373)
 
 import time
@@ -13,11 +13,9 @@ from fourwire import FourWire
 import adafruit_il0373
 from adafruit_display_text import label
 
-# ---------------------------------------------------------------
-# EDIT ME: add, remove, or change any of these reminders freely.
-# keep them short, they need to fit on a small screen.
-# ---------------------------------------------------------------
-reminders = [
+
+# MESSAGES + ASCII ART: add, remove, or change these freely.
+content = [
     "you can rest now",
     "you are doing enough",
     "it's okay to slow down",
@@ -26,29 +24,88 @@ reminders = [
     "this moment is enough",
     "be gentle with yourself today",
     "you are not behind",
+    "know when to fold 'em",
+    "ready...set...go....",
     "small steps still count",
+    "inhale.....exhale.......",
+    "you have what you need already",
+    "things do come back around",
+    "anything can be a poem - even this",
     "you deserve softness too",
+    "you are allowed to change your mind",
+    "it's okay to ask for help",
+    "you don't have to be productive right now",
+    "your feelings make sense",
+    "you can start again tomorrow",
+    "you are worth taking care of",
+    "it's okay to not know yet",
+    "you can let this be easy",
+    "you are allowed to say no",
+    "you did not have to be perfect today",
+    "this is a good place to pause",
+    "you are allowed to feel proud",
+    "you can trust yourself here",
+    "it's okay to take up less than everything today",
+    "you are still growing",
+
+    # expressive faces
+    "(^_^)",
+    "(._.)",
+    "(o_o)",
+    "(>_<)",
+    "(^.^)",
+    "(*_*)",
+    "(>.<)",
+    "(^o^)",
+    "(-_-)",
+    "(u_u)",
+    "(. .)",
+    "(^-^)",
+
+    # tiny sun
+    [
+        " \\ | / ",
+        "-- * --",
+        " / | \\ ",
+    ],
 ]
+
 
 print("starting up")
 
 displayio.release_displays()
 
-# button setup, one button to keep the build simple
+
+# BUTTON SETUP
+# one button to keep the build simple
+
 button = digitalio.DigitalInOut(board.A0)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
+
+# DISPLAY SETUP
 # auto-detect Feather RP2040 ThinkInk pins
-spi = busio.SPI(board.EPD_SCK, MOSI=board.EPD_MOSI, MISO=None)
+
+spi = busio.SPI(
+    board.EPD_SCK,
+    MOSI=board.EPD_MOSI,
+    MISO=None
+)
+
 epd_cs = board.EPD_CS
 epd_dc = board.EPD_DC
 epd_reset = board.EPD_RESET
 epd_busy = board.EPD_BUSY
 
 display_bus = FourWire(
-    spi, command=epd_dc, chip_select=epd_cs, reset=epd_reset, baudrate=1000000
+    spi,
+    command=epd_dc,
+    chip_select=epd_cs,
+    reset=epd_reset,
+    baudrate=1000000
 )
+
 time.sleep(1)
 
 display = adafruit_il0373.IL0373(
@@ -61,42 +118,187 @@ display = adafruit_il0373.IL0373(
     color_bits_inverted=True,
     swap_rams=True,
 )
+
 print("display ready")
+print("time_to_refresh:", display.time_to_refresh, "seconds")
+
+
+# tracks when the next safe refresh is allowed
+next_refresh_time = 0
+
+
+def draw_screen(lines):
+    global next_refresh_time
+
+    g = displayio.Group()
+
+    # white background
+    main_bitmap = displayio.Bitmap(
+        display.width,
+        display.height,
+        2
+    )
+
+    main_palette = displayio.Palette(2)
+    main_palette[0] = 0xFFFFFF
+    main_palette[1] = 0x000000
+
+    main_sprite = displayio.TileGrid(
+        main_bitmap,
+        pixel_shader=main_palette
+    )
+
+    g.append(main_sprite)
+
+    # add text
+    # lines is a list of (text, scale, y_offset)
+
+    for text_content, scale, y_offset in lines:
+
+        text_area = label.Label(
+            terminalio.FONT,
+            text=text_content,
+            scale=scale,
+            color=0x000000
+        )
+
+        text_area.anchor_point = (0.5, 0.5)
+
+        text_area.anchored_position = (
+            display.width // 2,
+            display.height // 2 + y_offset
+        )
+
+        g.append(text_area)
+
+    display.root_group = g
+
+    now = time.monotonic()
+
+    if now < next_refresh_time:
+
+        remaining = int(next_refresh_time - now)
+
+        print(
+            "display still resting:",
+            remaining,
+            "seconds remaining"
+        )
+
+        return False
+
+    try:
+
+        print("refreshing display...")
+
+        display.refresh()
+
+        print("refresh complete")
+
+        # follow the display's recommended refresh timing
+        next_refresh_time = (
+            time.monotonic()
+            + display.time_to_refresh
+            + 5
+        )
+
+        print(
+            "next refresh in approximately:",
+            int(next_refresh_time - time.monotonic()),
+            "seconds"
+        )
+
+        return True
+
+    except RuntimeError as error:
+
+        print("couldn't refresh yet:", error)
+
+        next_refresh_time = (
+            time.monotonic()
+            + display.time_to_refresh
+            + 5
+        )
+
+        return False
 
 
 def show_message(message):
-    g = displayio.Group()
 
-    main_bitmap = displayio.Bitmap(display.width, display.height, 2)
-    main_palette = displayio.Palette(2)
-    main_palette[0] = 0xFFFFFF  # background
-    main_palette[1] = 0x000000  # text
-    main_sprite = displayio.TileGrid(main_bitmap, pixel_shader=main_palette)
-    g.append(main_sprite)
+    print("showing:", message)
 
-    text_area = label.Label(terminalio.FONT, text=message, scale=1, color=0x000000)
-    text_area.anchor_point = (0.5, 0.5)
-    text_area.anchored_position = (display.width // 2, display.height // 2)
-    g.append(text_area)
+    # ASCII art can contain multiple lines.
+    if isinstance(message, list):
 
-    display.root_group = g
-    display.refresh()
-    time.sleep(display.time_to_refresh + 5)
+        lines = []
+
+        # center the three-line sun
+        start_y = -14
+
+        for line in message:
+
+            lines.append(
+                (line, 1, start_y)
+            )
+
+            start_y += 14
+
+        return draw_screen(lines)
+
+    # regular message or face
+    return draw_screen([
+        (message, 1, 0)
+    ])
 
 
-# intro sequence
-show_message("tiny soft computer")
-time.sleep(2)
-show_message("starting up")
-time.sleep(1.5)
-show_message("press the button\nfor a soft reminder")
-print("ready, press the button for a reminder")
+def show_intro():
 
-# main loop: wait for a button press, then show a random reminder
+    return draw_screen([
+        ("tiny soft computer", 1, -14),
+        ("press the button\nfor a little something", 1, 18),
+    ])
+
+
+# STARTUP
+
+show_intro()
+
+print("ready, press the button for a little something")
+
+
+# MAIN LOOP
+# wait for a button press, then show a random
+# message or piece of ASCII art
+
 while True:
-    if not button.value:  # button pressed
-        message = random.choice(reminders)
-        print("showing:", message)
-        show_message(message)
-        time.sleep(1)  # small pause so one press doesn't trigger twice
+
+    if not button.value:
+
+        print("BUTTON PRESSED")
+
+        if time.monotonic() >= next_refresh_time:
+
+            # randomly choose one complete item
+            message = random.choice(content)
+
+            show_message(message)
+
+        else:
+
+            remaining = int(
+                next_refresh_time - time.monotonic()
+            )
+
+            print(
+                "display is resting.",
+                remaining,
+                "seconds until next refresh."
+            )
+
+        # wait for the physical button to be released
+        while not button.value:
+            time.sleep(0.01)
+
+        print("BUTTON RELEASED")
+
     time.sleep(0.05)
