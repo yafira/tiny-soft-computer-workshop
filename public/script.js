@@ -4,9 +4,11 @@
 
 const reminders = [
   "you can rest now",
+  "(*_*)",
   "you are doing enough",
   "it's okay to slow down",
   "you don't have to earn rest",
+  "(^_^)",
   "you are allowed to take up space",
   "this moment is enough",
   "be gentle with yourself today",
@@ -25,7 +27,9 @@ if (screenEl) {
     () => reminders[Math.floor(Math.random() * reminders.length)],
   ];
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   let i = 0;
   function nextFrame() {
