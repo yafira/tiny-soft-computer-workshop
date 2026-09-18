@@ -78,9 +78,16 @@ import Layout from '../layouts/Layout.astro';
 
   <section class="block">
     <h2>3. add the code</h2>
+    <p class="note">
+      when you first open <code>code.py</code> on a fresh CIRCUITPY drive,
+      you'll likely see a single line already there:
+      <code>print("Hello World!")</code>. that's just a default test file,
+      not part of this project. delete it, then paste in the real code
+      below.
+    </p>
     <ol class="steps">
-      <li>install <a href="https://codewith.mu/en/download">mu editor</a> to add the code </li>
-      <li>copy <a href="/code">the code</a> onto your CIRCUITPY drive as <code>code.py</code>. (use the copy button on the code page to grab the whole file at once.)</li>
+      <li>if you don't already have a code editor for CircuitPython, install <a href="https://codewith.mu/en/download">Mu Editor</a>, a free, beginner-friendly editor built specifically for it. you'll use it to edit and paste in code, and to view the serial console (see <a href="#serial-monitor">using the serial monitor</a> below).</li>
+      <li>copy <a href="/code">the code</a> onto your CIRCUITPY drive as <code>code.py</code>, replacing whatever was there. (use the copy button on the code page to grab the whole file at once.)</li>
       <li>the board should auto-run it. if not, press reset once.</li>
       <li>watch the serial console as it runs, it prints its progress at each step.</li>
       <li>wait for "refresh complete" before judging what's on screen. e-ink flickers through intermediate frames mid-refresh, this can look like smudging and is completely normal.</li>
@@ -89,6 +96,13 @@ import Layout from '../layouts/Layout.astro';
 
   <section class="block">
     <h2>hardware: where things connect</h2>
+    <div class="diagram-placeholder">
+      <p>pin diagram coming soon</p>
+      <p class="note" style="margin: 0;">
+        will highlight: <code>A2</code> (button signal), <code>GND</code>
+        (button ground), and the 24-pin eInk display connector
+      </p>
+    </div>
     <p>
       the button needs two wires: one leg to pin <code>A2</code>, the other
       leg to any <code>GND</code> pin. no resistor is needed, the code
@@ -108,7 +122,7 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <section class="block">
-    <h2>using the serial monitor</h2>
+    <h2 id="serial-monitor">using the serial monitor</h2>
     <p>
       the serial console (accessed through the REPL in Mu, or any serial
       terminal) shows live text output from the board while your code
