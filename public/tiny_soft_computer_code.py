@@ -255,20 +255,43 @@ def show_intro():
 
     return draw_screen([
         ("tiny soft computer", 1, -14),
-        ("press the button\nfor a little something", 1, 18),
+        ("press the button\nto begin", 1, 18),
     ])
+
+
+def wait_for_next_refresh():
+    # sleep exactly until the display says it's ready again
+    remaining = next_refresh_time - time.monotonic()
+    if remaining > 0:
+        print("waiting", int(remaining), "seconds before the next one")
+        time.sleep(remaining)
+
+
+def run_full_loop():
+    # one press goes through everything, in a random order,
+    # pacing itself to the display's real refresh limit
+    order = list(content)
+    random.shuffle(order)
+
+    print("starting a full loop through", len(order), "items")
+
+    for item in order:
+        show_message(item)
+        wait_for_next_refresh()
+
+    print("loop complete")
+    show_intro()
 
 
 # STARTUP
 
 show_intro()
 
-print("ready, press the button for a little something")
+print("ready, press the button to begin")
 
 
 # MAIN LOOP
-# wait for a button press, then show a random
-# message or piece of ASCII art
+# one press starts a full randomized loop through everything
 
 while True:
 
@@ -276,29 +299,21 @@ while True:
 
         print("BUTTON PRESSED")
 
-        if time.monotonic() >= next_refresh_time:
-
-            # randomly choose one complete item
-            message = random.choice(content)
-
-            show_message(message)
-
-        else:
-
-            remaining = int(
-                next_refresh_time - time.monotonic()
-            )
-
-            print(
-                "display is resting.",
-                remaining,
-                "seconds until next refresh."
-            )
-
-        # wait for the physical button to be released
+        # wait for the physical button to be released before starting,
+        # so a long press doesn't retrigger anything
         while not button.value:
             time.sleep(0.01)
 
         print("BUTTON RELEASED")
+
+        if time.monotonic() >= next_refresh_time:
+            run_full_loop()
+        else:
+            remaining = int(next_refresh_time - time.monotonic())
+            print(
+                "display is resting.",
+                remaining,
+                "seconds until it can start."
+            )
 
     time.sleep(0.05)
