@@ -322,6 +322,33 @@ pre {
   border: 1px solid var(--ink);
 }
 
+.code-block {
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  border-color: var(--mustard);
+  color: var(--mustard);
+}
+
+.copy-btn:focus-visible {
+  outline: 2px solid var(--lavender);
+  outline-offset: 2px;
+}
+
 code {
   font-family: "IBM Plex Mono", monospace;
 }

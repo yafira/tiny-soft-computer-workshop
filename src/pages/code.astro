@@ -38,7 +38,10 @@ const codeContent = fs.readFileSync(
 
   <section class="block">
     <h2>the full code</h2>
-    <pre><code>{codeContent}</code></pre>
+    <div class="code-block">
+      <button class="copy-btn" id="copy-code-btn" type="button">copy</button>
+      <pre><code id="code-content">{codeContent}</code></pre>
+    </div>
     <p>
       <a class="btn" href="/tiny_soft_computer_code.py" download>download code.py</a>
     </p>
@@ -53,5 +56,23 @@ const codeContent = fs.readFileSync(
     </ul>
     <p>full install steps are on the <a href="/educators">educator setup guide</a>.</p>
   </section>
+
+  <script is:inline>
+    const copyBtn = document.getElementById('copy-code-btn');
+    const codeEl = document.getElementById('code-content');
+    if (copyBtn && codeEl) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(codeEl.textContent);
+          copyBtn.textContent = 'copied!';
+        } catch (err) {
+          copyBtn.textContent = 'couldn\'t copy';
+        }
+        setTimeout(() => {
+          copyBtn.textContent = 'copy';
+        }, 2000);
+      });
+    }
+  </script>
 
 </Layout>
