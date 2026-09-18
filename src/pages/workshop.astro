@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="workshop day — tiny soft computer"
+  description="What attendees actually do during the tiny soft computer workshop."
+  active="workshop"
+>
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">workshop day</p>
+    <h1>your kit is ready. you're just here to make it yours.</h1>
+    <p class="lede">
+      every kit arrives fully preloaded, CircuitPython, libraries, and
+      code are already installed and tested. you won't be doing any of
+      the technical setup, that part is already done. here's what you
+      will do.
+    </p>
+  </section>
+
+  <section class="block">
+    <span class="tag">step one</span>
+    <h2>tweak the code</h2>
+    <p>
+      open <a href="/code">the code</a> and find the list near the top,
+      clearly marked. add your own lines, remove ones that don't feel
+      right, reorder them. that's the whole interface. keep each one
+      short, the screen is small.
+    </p>
+  </section>
+
+  <section class="block">
+    <span class="tag">step two</span>
+    <h2>wire the button</h2>
+    <p>
+      your kit includes a small button and two wires. one wire connects
+      to pin <code>A2</code>, the other to any <code>GND</code> pin. no
+      soldering, no resistors, just two connections.
+    </p>
+    <p class="note">
+      a button has 4 legs in 2 connected pairs. your two wires need to be
+      on opposite sides. if the button doesn't respond, or responds
+      backward, try moving one wire to a different leg.
+    </p>
+  </section>
+
+  <section class="block">
+    <span class="tag">step three</span>
+    <h2>build your enclosure</h2>
+    <p>
+      this is the open-ended part. see <a href="/fabrication">fabrication</a>
+      for materials and a starting technique, but the form is yours to
+      decide. soft, hard, exposed, hidden, anything that fits your
+      electronics and lets the screen and button stay accessible.
+    </p>
+  </section>
+
+  <div class="divider">✿</div>
+
+  <section class="block">
+    <h2>a quick note on patience</h2>
+    <p>
+      the display can only redraw itself once every few minutes, that's
+      the manufacturer's own spec for this exact panel, not something
+      broken. press the button once, then let it be. more on why in
+      <a href="/about">about</a>.
+    </p>
+  </section>
+
+</Layout>
