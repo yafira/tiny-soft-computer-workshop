@@ -14,7 +14,7 @@ import adafruit_il0373
 from adafruit_display_text import label
 
 
-# Messages and drawings that can appear on the screen.
+# MESSAGES + ASCII ART
 # Add, remove, or change these to make the computer your own.
 
 content = [
