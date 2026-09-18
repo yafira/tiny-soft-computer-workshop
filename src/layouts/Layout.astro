@@ -4,7 +4,7 @@ import '../styles/global.css';
 export interface Props {
   title: string;
   description: string;
-  active: 'home' | 'setup' | 'code' | 'about';
+  active: 'home' | 'workshop' | 'fabrication' | 'educators' | 'resources' | 'code' | 'about';
 }
 
 const { title, description, active } = Astro.props;
@@ -24,8 +24,9 @@ const { title, description, active } = Astro.props;
     <a class="brand" href="/">tiny soft computer</a>
     <ul>
       <li><a href="/" aria-current={active === 'home' ? 'page' : undefined}>home</a></li>
-      <li><a href="/setup" aria-current={active === 'setup' ? 'page' : undefined}>setup guide</a></li>
-      <li><a href="/code" aria-current={active === 'code' ? 'page' : undefined}>the code</a></li>
+      <li><a href="/workshop" aria-current={active === 'workshop' ? 'page' : undefined}>workshop day</a></li>
+      <li><a href="/fabrication" aria-current={active === 'fabrication' ? 'page' : undefined}>fabrication</a></li>
+      <li><a href="/educators" aria-current={active === 'educators' ? 'page' : undefined}>for educators</a></li>
       <li><a href="/about" aria-current={active === 'about' ? 'page' : undefined}>about</a></li>
     </ul>
   </div>

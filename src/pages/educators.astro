@@ -2,18 +2,27 @@
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
-  title="setup guide — tiny soft computer"
-  description="Step-by-step setup instructions for building your own tiny soft computer."
-  active="setup"
+  title="for educators — tiny soft computer"
+  description="Full setup and troubleshooting reference for educators preparing tiny soft computer kits ahead of a workshop."
+  active="educators"
 >
 
   <section class="hero" style="padding-top: 2.5rem;">
-    <p class="kicker">setup guide</p>
-    <h1>get your board talking to your display</h1>
+    <p class="kicker">for educators</p>
+    <h1>this is prep work, not the workshop</h1>
+    <p class="lede">
+      this page is for whoever is setting up kits ahead of time, installing
+      CircuitPython, flashing code, and testing hardware. attendees never
+      see any of this. by the time someone sits down at the workshop, their
+      kit is already fully preloaded and working. all they do is tweak the
+      code, wire the button, and build their enclosure, see
+      <a href="/workshop">workshop day</a> for that shorter version.
+    </p>
     <p class="lede">
       what you'll need: an Adafruit RP2040 Feather ThinkInk, a 2.13" 212×104
       flexible monochrome eInk display (ILI0373 chipset), a USB-C cable,
-      and a computer to program from.
+      and a computer to program from. for a full parts list and
+      alternatives, see <a href="/resources">resources</a>.
     </p>
   </section>
 
@@ -26,13 +35,14 @@ import Layout from '../layouts/Layout.astro';
     </p>
     <ol class="steps">
       <li>unplug the board completely.</li>
-      <li>press and hold the <strong>BOOTSEL</strong> button.</li>
+      <li>press and hold the <strong>BOOTSEL</strong> button (this is the button on the board itself, labeled BOOT or BOOTSEL, not the reset button).</li>
       <li>while still holding it, plug in the USB-C cable.</li>
       <li>wait a second or two, then release the button. this "boot on start" method is more reliable than double-pressing reset while already powered on.</li>
-      <li>a drive named <code>RPI-RP2</code> should appear.</li>
-      <li>go to <a href="https://circuitpython.org">circuitpython.org</a> and search for your exact board: "Adafruit Feather RP2040 ThinkInk". don't pick a generic RP2040 file, other variants have different pin mappings.</li>
-      <li>choose the stable release (10.x), and download the single <code>.uf2</code> file.</li>
-      <li>drag that file onto the <code>RPI-RP2</code> drive.</li>
+      <li>a drive named <code>RPI-RP2</code> should appear. check your file browser (Finder on Mac, File Explorer on Windows) under "Locations" or "This PC", it shows up like a USB flash drive.</li>
+      <li>go to the official <a href="https://circuitpython.org/libraries">CircuitPython libraries page</a>. this is a different page from the main circuitpython.org homepage, it's specifically where the library bundle lives.</li>
+      <li>search for your exact board: "Adafruit Feather RP2040 ThinkInk". don't pick a generic RP2040 file, other variants have different pin mappings.</li>
+      <li>choose the stable release (10.x), and download the single <code>.uf2</code> file. it will land in your computer's <strong>Downloads</strong> folder unless you chose a different save location.</li>
+      <li>open your Downloads folder, find that <code>.uf2</code> file, and drag it onto the <code>RPI-RP2</code> drive.</li>
       <li>the board restarts automatically. the drive is now named <code>CIRCUITPY</code>, that means CircuitPython is installed.</li>
       <li>now reconnect the eInk display.</li>
     </ol>
@@ -46,9 +56,15 @@ import Layout from '../layouts/Layout.astro';
   <section class="block">
     <h2>2. add the required libraries</h2>
     <p>
-      from the <a href="https://circuitpython.org/libraries">CircuitPython
-      Library Bundle</a>, matching your exact CircuitPython version, copy
-      these into a <code>lib</code> folder on your CIRCUITPY drive:
+      go to the <a href="https://circuitpython.org/libraries">CircuitPython
+      Library Bundle</a> page, and download the zip matching your exact
+      CircuitPython version (check <code>boot_out.txt</code> on your
+      CIRCUITPY drive if you're not sure which version you're running).
+      it will land in your <strong>Downloads</strong> folder. unzip it,
+      then from inside the unzipped folder's <code>lib</code> subfolder,
+      drag these two items onto your CIRCUITPY drive, into a folder there
+      also named <code>lib</code> (create that folder if it doesn't exist
+      yet):
     </p>
     <ul class="plain">
       <li><code>adafruit_il0373.mpy</code></li>
@@ -64,11 +80,48 @@ import Layout from '../layouts/Layout.astro';
     <h2>3. add the code</h2>
     <ol class="steps">
       <li>install <a href="https://codewith.mu/en/download">mu editor</a> to add the code </li>
-      <li>copy <a href="/code">the code</a> onto your CIRCUITPY drive as <code>code.py</code>.</li>
+      <li>copy <a href="/code">the code</a> onto your CIRCUITPY drive as <code>code.py</code>. (use the copy button on the code page to grab the whole file at once.)</li>
       <li>the board should auto-run it. if not, press reset once.</li>
       <li>watch the serial console as it runs, it prints its progress at each step.</li>
       <li>wait for "refresh complete" before judging what's on screen. e-ink flickers through intermediate frames mid-refresh, this can look like smudging and is completely normal.</li>
     </ol>
+  </section>
+
+  <section class="block">
+    <h2>hardware: where things connect</h2>
+    <p>
+      the button needs two wires: one leg to pin <code>A2</code>, the other
+      leg to any <code>GND</code> pin. no resistor is needed, the code
+      already uses the board's internal pull-up resistor.
+    </p>
+    <div class="note">
+      most small tactile buttons have 4 legs in 2 internally-connected
+      pairs. your two wires need to land on opposite pairs, not two legs
+      from the same side, otherwise the button reads as permanently
+      pressed (or never pressed) no matter what. if this happens, try
+      moving one wire to a different leg and test again.
+    </div>
+    <p>
+      the eInk display connects via its 24-pin ribbon cable into the
+      Feather's display connector, this only fits one way, don't force it.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>using the serial monitor</h2>
+    <p>
+      the serial console (accessed through the REPL in Mu, or any serial
+      terminal) shows live text output from the board while your code
+      runs. this project's code prints a line at almost every step
+      ("starting up", "display ready", "showing: ...", etc.), specifically
+      so you can see exactly where something goes wrong instead of
+      guessing.
+    </p>
+    <p>
+      if a kit isn't behaving, check the serial console first, before
+      touching any wiring. an error message here tells you far more than
+      staring at the display ever will.
+    </p>
   </section>
 
   <div class="divider">✿</div>
@@ -170,6 +223,10 @@ import Layout from '../layouts/Layout.astro';
       this is a living document. it gets updated as we test more units
       and find new issues, so it stays accurate for whoever builds one
       after us.
+    </p>
+    <p>
+      for a full parts list and classroom-friendly alternatives, see
+      <a href="/resources">resources</a>.
     </p>
   </section>
 

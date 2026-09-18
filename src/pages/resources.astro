@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="resources — tiny soft computer"
+  description="Bill of materials and classroom-friendly alternatives for the tiny soft computer kit."
+  active="resources"
+>
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">resources</p>
+    <h1>what's in the kit, and what you can swap</h1>
+    <p class="lede">
+      for educators adapting this kit to their own classroom, budget, or
+      what's actually in stock.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>bill of materials</h2>
+    <ul class="plain">
+      <li>Adafruit RP2040 Feather ThinkInk</li>
+      <li>2.13" 212×104 Flexible Monochrome eInk display (ILI0373)</li>
+      <li>tactile push button</li>
+      <li>2 wires (alligator clips or jumper wires)</li>
+      <li>USB-C cable</li>
+    </ul>
+    <p class="note">
+      exact current pricing changes, check Adafruit's site directly
+      before ordering in bulk.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>alternatives</h2>
+    <p>
+      the flexible eInk display has a real hardware limit: it can only
+      redraw once every few minutes (see <a href="/about">about</a> for
+      why). if that pacing doesn't fit your classroom's timing, a
+      monochrome OLED display swaps in cleanly, same microcontroller,
+      instant refresh, no waiting. it trades away the eInk's paper-like
+      quality for speed.
+    </p>
+    <p class="note">
+      full alternative wiring and code notes coming soon.
+    </p>
+  </section>
+
+</Layout>
