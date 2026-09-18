@@ -310,6 +310,25 @@ section.block:last-of-type {
   margin-bottom: 0.6rem;
 }
 
+/* placeholder for content not yet added, e.g. diagrams, photos */
+.diagram-placeholder {
+  border: 1px dashed var(--rule);
+  padding: 2.2rem 1.3rem;
+  margin: 1.2rem 0;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.diagram-placeholder p {
+  max-width: none;
+}
+
+.diagram-placeholder p:first-child {
+  font-family: "Fraunces", serif;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
 /* code blocks */
 
 pre {
