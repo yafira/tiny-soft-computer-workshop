@@ -1,5 +1,5 @@
 # tiny soft computer
-# press the button for a little something
+# press the button once, then it runs on its own
 # Feather RP2040 ThinkInk + 2.13" 212x104 Flexible Monochrome eInk (IL0373)
 
 import time
@@ -14,7 +14,9 @@ import adafruit_il0373
 from adafruit_display_text import label
 
 
-# MESSAGES + ASCII ART: add, remove, or change these freely.
+# Messages and drawings that can appear on the screen.
+# Add, remove, or change these to make the computer your own.
+
 content = [
     "you can rest now",
     "you are doing enough",
@@ -48,7 +50,7 @@ content = [
     "it's okay to take up less than everything today",
     "you are still growing",
 
-    # expressive faces
+    # Little faces
     "(^_^)",
     "(._.)",
     "(o_o)",
@@ -62,7 +64,7 @@ content = [
     "(. .)",
     "(^-^)",
 
-    # tiny sun
+    # A tiny sun
     [
         " \\ | / ",
         "-- * --",
@@ -71,21 +73,28 @@ content = [
 ]
 
 
+# The display should not be updated more often than every
+# 180 seconds, according to the display datasheet. this is
+# the single source of truth for timing in this file.
+
+CONTENT_INTERVAL = 180
+
+
 print("starting up")
 
 displayio.release_displays()
 
 
-# BUTTON SETUP
-# one button to keep the build simple
+# One button starts the computer.
+# The button uses a pull-up resistor.
+# False means pressed and True means not pressed.
 
 button = digitalio.DigitalInOut(board.A2)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
 
-# DISPLAY SETUP
-# auto-detect Feather RP2040 ThinkInk pins
+# Set up the connection between the Feather and the e-ink display.
 
 spi = busio.SPI(
     board.EPD_SCK,
@@ -120,19 +129,46 @@ display = adafruit_il0373.IL0373(
 )
 
 print("display ready")
-print("time_to_refresh:", display.time_to_refresh, "seconds")
+print("display refresh time:", display.time_to_refresh, "seconds")
 
 
-# tracks when the next safe refresh is allowed
-next_refresh_time = 0
+def wrap_text(text, max_chars=26):
+    # Break a long message into multiple lines
+    # so it fits on the small screen.
+
+    words = text.split(" ")
+    lines = []
+    current = ""
+
+    for word in words:
+
+        if len(current) + len(word) + 1 <= max_chars:
+            current = (
+                current + " " + word
+                if current
+                else word
+            )
+
+        else:
+            lines.append(current)
+            current = word
+
+    if current:
+        lines.append(current)
+
+    return "\n".join(lines)
 
 
 def draw_screen(lines):
-    global next_refresh_time
+    # Draws one screen and refreshes the display.
+    # Timing between screens is handled entirely by
+    # run_forever()'s CONTENT_INTERVAL sleep, this function
+    # just draws and refreshes once, whenever it's called.
 
     g = displayio.Group()
 
-    # white background
+    # Create a white background.
+
     main_bitmap = displayio.Bitmap(
         display.width,
         display.height,
@@ -150,8 +186,8 @@ def draw_screen(lines):
 
     g.append(main_sprite)
 
-    # add text
-    # lines is a list of (text, scale, y_offset)
+    # Add each piece of text to the screen.
+    # Each item contains the text, size, and vertical position.
 
     for text_content, scale, y_offset in lines:
 
@@ -173,66 +209,45 @@ def draw_screen(lines):
 
     display.root_group = g
 
-    now = time.monotonic()
-
-    if now < next_refresh_time:
-
-        remaining = int(next_refresh_time - now)
-
-        print(
-            "display still resting:",
-            remaining,
-            "seconds remaining"
-        )
-
-        return False
-
     try:
-
         print("refreshing display...")
-
         display.refresh()
-
         print("refresh complete")
-
-        # follow the display's recommended refresh timing
-        next_refresh_time = (
-            time.monotonic()
-            + display.time_to_refresh
-            + 5
-        )
-
-        print(
-            "next refresh in approximately:",
-            int(next_refresh_time - time.monotonic()),
-            "seconds"
-        )
-
         return True
 
     except RuntimeError as error:
-
-        print("couldn't refresh yet:", error)
-
-        next_refresh_time = (
-            time.monotonic()
-            + display.time_to_refresh
-            + 5
-        )
-
+        # this is a safety net, not expected to trigger in normal
+        # use, since CONTENT_INTERVAL already paces things correctly
+        print("display wasn't ready:", error)
         return False
 
 
 def show_message(message):
+    # Show one message or drawing on the screen.
 
-    print("showing:", message)
+    print("")
+    print("--------------------------------")
+    print("changing message")
 
-    # ASCII art can contain multiple lines.
+    # Print the message to the Serial Monitor.
+
+    if isinstance(message, list):
+
+        print("showing:")
+
+        for line in message:
+            print(line)
+
+    else:
+
+        print("showing:", message)
+
+    # A list means the content has multiple lines,
+    # like the little sun.
+
     if isinstance(message, list):
 
         lines = []
-
-        # center the three-line sun
         start_y = -14
 
         for line in message:
@@ -245,13 +260,18 @@ def show_message(message):
 
         return draw_screen(lines)
 
-    # regular message or face
+    # Regular messages are wrapped automatically
+    # if they are too long for one line.
+
+    wrapped = wrap_text(message)
+
     return draw_screen([
-        (message, 1, 0)
+        (wrapped, 1, 0)
     ])
 
 
 def show_intro():
+    # This is the screen shown before the button is pressed.
 
     return draw_screen([
         ("tiny soft computer", 1, -14),
@@ -259,61 +279,97 @@ def show_intro():
     ])
 
 
-def wait_for_next_refresh():
-    # sleep exactly until the display says it's ready again
-    remaining = next_refresh_time - time.monotonic()
-    if remaining > 0:
-        print("waiting", int(remaining), "seconds before the next one")
-        time.sleep(remaining)
+def shuffle_list(items):
+    # Put the messages into a random order.
+    # This uses the Fisher-Yates shuffle.
+
+    for i in range(len(items) - 1, 0, -1):
+
+        j = random.randint(0, i)
+
+        items[i], items[j] = (
+            items[j],
+            items[i]
+        )
 
 
-def run_full_loop():
-    # one press goes through everything, in a random order,
-    # pacing itself to the display's real refresh limit
-    order = list(content)
-    random.shuffle(order)
+def run_forever():
+    # Once the button is pressed, the computer
+    # takes over and keeps running by itself.
 
-    print("starting a full loop through", len(order), "items")
+    print("")
+    print("tiny soft computer is running")
+    print("changing every", CONTENT_INTERVAL, "seconds")
+    print("")
 
-    for item in order:
-        show_message(item)
-        wait_for_next_refresh()
+    while True:
 
-    print("loop complete")
-    show_intro()
+        # Make a copy of the content so we can
+        # shuffle its order without changing the
+        # original list.
+
+        order = list(content)
+
+        shuffle_list(order)
+
+        print(
+            "new randomized set of",
+            len(order),
+            "items"
+        )
+
+        # Show every item once before making
+        # a new random order.
+
+        for item in order:
+
+            show_message(item)
+
+            print(
+                "next message in",
+                CONTENT_INTERVAL,
+                "seconds"
+            )
+
+            time.sleep(CONTENT_INTERVAL)
+
+        # Once everything has been shown,
+        # shuffle everything and start again.
+
+        print("finished this set, reshuffling...")
 
 
-# STARTUP
+# Show the intro when the computer starts.
 
 show_intro()
 
+print("")
 print("ready, press the button to begin")
+print("")
 
 
-# MAIN LOOP
-# one press starts a full randomized loop through everything
+# The button only needs to be pressed once.
+# After that, run_forever() takes over.
 
 while True:
 
     if not button.value:
 
-        print("BUTTON PRESSED")
+        print("button pressed")
 
-        # wait for the physical button to be released before starting,
-        # so a long press doesn't retrigger anything
+        # Wait for the button to be released.
+        # This prevents holding the button down
+        # from triggering the computer more than once.
+
         while not button.value:
             time.sleep(0.01)
 
-        print("BUTTON RELEASED")
+        print("button released")
 
-        if time.monotonic() >= next_refresh_time:
-            run_full_loop()
-        else:
-            remaining = int(next_refresh_time - time.monotonic())
-            print(
-                "display is resting.",
-                remaining,
-                "seconds until it can start."
-            )
+        # Start the computer.
+        # This function runs forever, so the button
+        # will not be checked again.
+
+        run_forever()
 
     time.sleep(0.05)
