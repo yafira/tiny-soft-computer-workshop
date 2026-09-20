@@ -52,6 +52,7 @@ content = [
     "you are still growing",
 
     # Little faces
+
     "(^_^)",
     "(._.)",
     "(o_o)",
@@ -62,9 +63,11 @@ content = [
     "(^o^)",
     "(-_-)",
     "(u_u)",
+    "(. .)",
     "(^-^)",
 
     # A tiny sun
+
     [
         " \\ | / ",
         "-- * --",
@@ -75,8 +78,8 @@ content = [
 
 
 # The display should not be updated more often than every
-# 180 seconds, according to the display datasheet. this is
-# the single source of truth for timing in this file.
+# 180 seconds, according to the display datasheet.
+# This is the single source of truth for timing in this file.
 
 CONTENT_INTERVAL = 180
 
@@ -95,8 +98,8 @@ button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
 
-# everything below this is already wired up and working,
-# feel free to skim it or skip ahead
+# Everything below this is already wired up and working,
+# feel free to skim it or skip ahead.
 
 # Set up the connection between the Feather and the e-ink display.
 
@@ -238,8 +241,9 @@ def draw_screen(lines):
         return True
 
     except RuntimeError as error:
-        # this is a safety net, shouldn't normally trigger now that
-        # draw_screen waits for the real elapsed time up front
+        # This is a safety net. It shouldn't normally trigger
+        # because draw_screen waits for the real elapsed time.
+
         print("display wasn't ready:", error)
         last_refresh_time = time.monotonic()
         return False
@@ -327,19 +331,99 @@ def shuffle_list(items):
         )
 
 
-def wait_with_countdown(total_seconds, step=10):
-    # Waits total_seconds, printing progress every step seconds.
-    # Useful for watching timing on the Serial Monitor.
+# Add special messages here.
+# The number is the number of seconds into the wait.
+#
+# The Serial Monitor will still show every 10 seconds.
+# These messages can happen at any time.
 
-    elapsed = 0
+waiting_messages = {
+    20: "still here",
+    35: "a little more patience",
+    50: "taking its sweet time",
+    60: "thinking....",
+    70: "still thinking",
+    90: "halfway there",
+    110: "a little longer",
+    130: "nearly there",
+    145: "just hanging out",
+    160: "almost there",
+    170: "so little time",
+}
 
-    while elapsed < total_seconds:
 
-        wait_this_step = min(step, total_seconds - elapsed)
-        time.sleep(wait_this_step)
-        elapsed += wait_this_step
+def wait_with_countdown(total_seconds):
+    # Waits while showing progress in the Serial Monitor.
+    # A regular update appears every 10 seconds.
+    # Special messages can appear at other times.
+    # The button is also checked while waiting.
 
-        print(elapsed, "seconds")
+    start_time = time.monotonic()
+
+    next_ten_second_update = 10
+    printed_messages = []
+
+    button_was_pressed = False
+
+    while True:
+
+        elapsed = time.monotonic() - start_time
+
+        # Check the button frequently while waiting.
+
+        if not button.value:
+
+            if not button_was_pressed:
+                print("button pressed, just a few seconds...")
+                button_was_pressed = True
+
+        else:
+            button_was_pressed = False
+
+        # Stop when the full wait is complete.
+
+        if elapsed >= total_seconds:
+            break
+
+        # Print every 10 seconds.
+
+        if elapsed >= next_ten_second_update:
+
+            if next_ten_second_update in waiting_messages:
+                print(
+                    next_ten_second_update,
+                    "seconds -",
+                    waiting_messages[next_ten_second_update]
+                )
+
+            else:
+                print(
+                    next_ten_second_update,
+                    "seconds"
+                )
+
+            next_ten_second_update += 10
+
+        # Print special messages that happen between
+        # the regular 10-second updates.
+
+        for message_time in waiting_messages:
+
+            if (
+                message_time not in printed_messages
+                and elapsed >= message_time
+                and message_time % 10 != 0
+            ):
+
+                print(
+                    message_time,
+                    "seconds -",
+                    waiting_messages[message_time]
+                )
+
+                printed_messages.append(message_time)
+
+        time.sleep(0.05)
 
 
 def run_forever():
@@ -361,8 +445,6 @@ def run_forever():
 
         shuffle_list(order)
 
-        # a new randomized set is ready to go through
-
         # Show every item once before making
         # a new random order.
 
@@ -370,8 +452,9 @@ def run_forever():
 
             show_message(item)
 
-            # tidy up memory now and then, since this loop
-            # runs for a very long time without ever restarting
+            # Tidy up memory now and then, since this loop
+            # runs for a very long time without ever restarting.
+
             gc.collect()
 
         # Once everything has been shown,
@@ -389,12 +472,17 @@ print("ready, press the button to begin")
 print("")
 
 
-# The button only needs to be pressed once, after that
-# run_forever() takes over and never returns.
+# The button only needs to be pressed once.
+# After that run_forever() takes over.
 
 while True:
 
     if not button.value:
+
+        print("button pressed, just a few seconds...")
+
+        time.sleep(0.5)
+
         run_forever()
 
     time.sleep(0.05)
