@@ -274,8 +274,8 @@ def show_intro():
     # This is the screen shown before the button is pressed.
 
     return draw_screen([
-        ("tiny soft computer", 1, -14),
-        ("press the button\nto begin", 1, 18),
+        ("tiny soft computers", 1, -14),
+        ("press button, give it\na moment", 1, 18),
     ])
 
 
@@ -291,6 +291,21 @@ def shuffle_list(items):
             items[j],
             items[i]
         )
+
+
+def wait_with_countdown(total_seconds, step=10):
+    # Waits total_seconds, printing progress every step seconds.
+    # Useful for watching timing on the Serial Monitor.
+
+    elapsed = 0
+
+    while elapsed < total_seconds:
+
+        wait_this_step = min(step, total_seconds - elapsed)
+        time.sleep(wait_this_step)
+        elapsed += wait_this_step
+
+        print(elapsed, "seconds")
 
 
 def run_forever():
@@ -324,14 +339,7 @@ def run_forever():
         for item in order:
 
             show_message(item)
-
-            print(
-                "next message in",
-                CONTENT_INTERVAL,
-                "seconds"
-            )
-
-            time.sleep(CONTENT_INTERVAL)
+            wait_with_countdown(CONTENT_INTERVAL)
 
         # Once everything has been shown,
         # shuffle everything and start again.
@@ -348,28 +356,12 @@ print("ready, press the button to begin")
 print("")
 
 
-# The button only needs to be pressed once.
-# After that, run_forever() takes over.
+# The button only needs to be pressed once, after that
+# run_forever() takes over and never returns.
 
 while True:
 
     if not button.value:
-
-        print("button pressed")
-
-        # Wait for the button to be released.
-        # This prevents holding the button down
-        # from triggering the computer more than once.
-
-        while not button.value:
-            time.sleep(0.01)
-
-        print("button released")
-
-        # Start the computer.
-        # This function runs forever, so the button
-        # will not be checked again.
-
         run_forever()
 
     time.sleep(0.05)
