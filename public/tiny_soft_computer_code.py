@@ -368,11 +368,6 @@ def wait_with_countdown(total_seconds):
         else:
             button_was_pressed = False
 
-        # Stop when the full wait is complete.
-
-        if elapsed >= total_seconds:
-            break
-
         # Print every 10 seconds.
 
         if elapsed >= next_ten_second_update:
@@ -410,6 +405,11 @@ def wait_with_countdown(total_seconds):
                 )
 
                 printed_messages.append(message_time)
+
+        # Stop when the full wait is complete.
+
+        if elapsed >= total_seconds:
+            break
 
         time.sleep(0.05)
 
