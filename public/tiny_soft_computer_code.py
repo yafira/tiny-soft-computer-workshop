@@ -62,7 +62,6 @@ content = [
     "(^o^)",
     "(-_-)",
     "(u_u)",
-    "(. .)",
     "(^-^)",
 
     # A tiny sun
@@ -70,6 +69,7 @@ content = [
         " \\ | / ",
         "-- * --",
         " / | \\ ",
+        "you are a beam of light",
     ],
 ]
 
@@ -163,11 +163,28 @@ def wrap_text(text, max_chars=26):
     return "\n".join(lines)
 
 
+# Tracks when the display last actually refreshed, so we always
+# know the real gap, including the very first refresh from the
+# intro screen, not just the gap between messages.
+
+last_refresh_time = None
+
+
 def draw_screen(lines):
     # Draws one screen and refreshes the display.
-    # Timing between screens is handled entirely by
-    # run_forever()'s CONTENT_INTERVAL sleep, this function
-    # just draws and refreshes once, whenever it's called.
+    # Waits here, if needed, so the display never refreshes
+    # sooner than CONTENT_INTERVAL since the last real refresh,
+    # including the very first one from the intro screen.
+
+    global last_refresh_time
+
+    if last_refresh_time is not None:
+
+        elapsed = time.monotonic() - last_refresh_time
+        remaining = CONTENT_INTERVAL - elapsed
+
+        if remaining > 0:
+            wait_with_countdown(remaining)
 
     g = displayio.Group()
 
@@ -217,31 +234,46 @@ def draw_screen(lines):
         print("refreshing display...")
         display.refresh()
         print("refresh complete")
+        last_refresh_time = time.monotonic()
         return True
 
     except RuntimeError as error:
-        # this is a safety net, not expected to trigger in normal
-        # use, since CONTENT_INTERVAL already paces things correctly
+        # this is a safety net, shouldn't normally trigger now that
+        # draw_screen waits for the real elapsed time up front
         print("display wasn't ready:", error)
+        last_refresh_time = time.monotonic()
         return False
+
+
+# Tracks whether we've shown a message yet, so the very first
+# one says "showing:" and every one after says "showing next:".
+
+first_message_shown = False
 
 
 def show_message(message):
     # Show one message or drawing on the screen.
+
+    global first_message_shown
+
+    label = "showing next:" if first_message_shown else "showing:"
+    first_message_shown = True
 
     print("")
     print("--------------------------------")
 
     if isinstance(message, list):
 
-        print("showing:")
+        print(label)
 
         for line in message:
             print(line)
 
     else:
 
-        print("showing:", message)
+        print(label, message)
+
+    print("--------------------------------")
 
     # A list means the content has multiple lines,
     # like the little sun.
@@ -275,8 +307,8 @@ def show_intro():
     # This is the screen shown before the button is pressed.
 
     return draw_screen([
-        ("tiny soft computers", 1, -14),
-        ("press button, give it\na moment", 1, 18),
+        ("tiny soft computer", 1, -14),
+        ("press button\ngive it a moment ...", 1, 18),
     ])
 
 
@@ -329,11 +361,7 @@ def run_forever():
 
         shuffle_list(order)
 
-        print(
-            "new randomized set of",
-            len(order),
-            "items"
-        )
+        # a new randomized set is ready to go through
 
         # Show every item once before making
         # a new random order.
@@ -341,7 +369,6 @@ def run_forever():
         for item in order:
 
             show_message(item)
-            wait_with_countdown(CONTENT_INTERVAL)
 
             # tidy up memory now and then, since this loop
             # runs for a very long time without ever restarting
