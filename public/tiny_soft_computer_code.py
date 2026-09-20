@@ -94,6 +94,9 @@ button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
 
+# everything below this is already wired up and working,
+# feel free to skim it or skip ahead
+
 # Set up the connection between the Feather and the e-ink display.
 
 spi = busio.SPI(
@@ -227,20 +230,17 @@ def show_message(message):
 
     print("")
     print("--------------------------------")
-    print("changing message")
-
-    # Print the message to the Serial Monitor.
 
     if isinstance(message, list):
 
-        print("showing:")
+        print("here's something new:")
 
         for line in message:
             print(line)
 
     else:
 
-        print("showing:", message)
+        print("here's something new:", message)
 
     # A list means the content has multiple lines,
     # like the little sun.
@@ -281,7 +281,8 @@ def show_intro():
 
 def shuffle_list(items):
     # Put the messages into a random order.
-    # This uses the Fisher-Yates shuffle.
+    # This uses the Fisher-Yates shuffle, a simple way to make
+    # sure every possible order is equally likely.
 
     for i in range(len(items) - 1, 0, -1):
 
