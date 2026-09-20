@@ -79,7 +79,6 @@ content = [
 
 # The display should not be updated more often than every
 # 180 seconds, according to the display datasheet.
-# This is the single source of truth for timing in this file.
 
 CONTENT_INTERVAL = 180
 
@@ -97,9 +96,6 @@ button = digitalio.DigitalInOut(board.A2)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
-
-# Everything below this is already wired up and working,
-# feel free to skim it or skip ahead.
 
 # Set up the connection between the Feather and the e-ink display.
 
@@ -166,18 +162,15 @@ def wrap_text(text, max_chars=26):
     return "\n".join(lines)
 
 
-# Tracks when the display last actually refreshed, so we always
-# know the real gap, including the very first refresh from the
-# intro screen, not just the gap between messages.
+# Tracks when the display last actually refreshed.
 
 last_refresh_time = None
 
 
 def draw_screen(lines):
     # Draws one screen and refreshes the display.
-    # Waits here, if needed, so the display never refreshes
-    # sooner than CONTENT_INTERVAL since the last real refresh,
-    # including the very first one from the intro screen.
+    # Waits here if needed so the display never refreshes
+    # sooner than CONTENT_INTERVAL.
 
     global last_refresh_time
 
@@ -211,7 +204,6 @@ def draw_screen(lines):
     g.append(main_sprite)
 
     # Add each piece of text to the screen.
-    # Each item contains the text, size, and vertical position.
 
     for text_content, scale, y_offset in lines:
 
@@ -241,16 +233,14 @@ def draw_screen(lines):
         return True
 
     except RuntimeError as error:
-        # This is a safety net. It shouldn't normally trigger
-        # because draw_screen waits for the real elapsed time.
+        # This is a safety net if the display is not ready.
 
         print("display wasn't ready:", error)
         last_refresh_time = time.monotonic()
         return False
 
 
-# Tracks whether we've shown a message yet, so the very first
-# one says "showing:" and every one after says "showing next:".
+# Tracks whether we've shown a message yet.
 
 first_message_shown = False
 
@@ -260,22 +250,23 @@ def show_message(message):
 
     global first_message_shown
 
-    label = "showing next:" if first_message_shown else "showing:"
+    if first_message_shown:
+        print("showing next:")
+    else:
+        print("showing:")
+
     first_message_shown = True
 
-    print("")
     print("--------------------------------")
 
     if isinstance(message, list):
-
-        print(label)
 
         for line in message:
             print(line)
 
     else:
 
-        print(label, message)
+        print(message)
 
     print("--------------------------------")
 
@@ -297,8 +288,7 @@ def show_message(message):
 
         return draw_screen(lines)
 
-    # Regular messages are wrapped automatically
-    # if they are too long for one line.
+    # Regular messages are wrapped automatically.
 
     wrapped = wrap_text(message)
 
@@ -318,8 +308,6 @@ def show_intro():
 
 def shuffle_list(items):
     # Put the messages into a random order.
-    # This uses the Fisher-Yates shuffle, a simple way to make
-    # sure every possible order is equally likely.
 
     for i in range(len(items) - 1, 0, -1):
 
@@ -353,7 +341,7 @@ waiting_messages = {
 
 
 def wait_with_countdown(total_seconds):
-    # Waits while showing progress in the Serial Monitor.
+    # Wait while showing progress in the Serial Monitor.
     # A regular update appears every 10 seconds.
     # Special messages can appear at other times.
     # The button is also checked while waiting.
@@ -369,7 +357,7 @@ def wait_with_countdown(total_seconds):
 
         elapsed = time.monotonic() - start_time
 
-        # Check the button frequently while waiting.
+        # Check the button while waiting.
 
         if not button.value:
 
@@ -437,9 +425,8 @@ def run_forever():
 
     while True:
 
-        # Make a copy of the content so we can
-        # shuffle its order without changing the
-        # original list.
+        # Make a copy so we can shuffle the order
+        # without changing the original list.
 
         order = list(content)
 
@@ -452,13 +439,11 @@ def run_forever():
 
             show_message(item)
 
-            # Tidy up memory now and then, since this loop
-            # runs for a very long time without ever restarting.
+            # Tidy up memory now and then.
 
             gc.collect()
 
-        # Once everything has been shown,
-        # shuffle everything and start again.
+        # Start again with a new random order.
 
         print("finished this set, reshuffling...")
 
