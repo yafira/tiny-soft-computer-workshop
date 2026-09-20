@@ -4,6 +4,7 @@
 
 import time
 import random
+import gc
 import board
 import busio
 import displayio
@@ -233,14 +234,14 @@ def show_message(message):
 
     if isinstance(message, list):
 
-        print("here's something new:")
+        print("showing:")
 
         for line in message:
             print(line)
 
     else:
 
-        print("here's something new:", message)
+        print("showing:", message)
 
     # A list means the content has multiple lines,
     # like the little sun.
@@ -341,6 +342,10 @@ def run_forever():
 
             show_message(item)
             wait_with_countdown(CONTENT_INTERVAL)
+
+            # tidy up memory now and then, since this loop
+            # runs for a very long time without ever restarting
+            gc.collect()
 
         # Once everything has been shown,
         # shuffle everything and start again.
