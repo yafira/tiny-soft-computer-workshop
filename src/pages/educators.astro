@@ -77,14 +77,17 @@ import Layout from '../layouts/Layout.astro';
     <h2>2. add the required libraries</h2>
     <p>
       go to the <a href="https://circuitpython.org/libraries">CircuitPython
-      Library Bundle</a> page, and download the zip matching your exact
-      CircuitPython version (check <code>boot_out.txt</code> on your
-      CIRCUITPY drive if you're not sure which version you're running).
-      it will land in your <strong>Downloads</strong> folder. unzip it,
-      then from inside the unzipped folder's <code>lib</code> subfolder,
-      drag these two items onto your CIRCUITPY drive, into a folder there
-      also named <code>lib</code> (create that folder if it doesn't exist
-      yet):
+      Library Bundle</a> page, and download the <strong>latest</strong> zip
+      matching your exact CircuitPython major version (check
+      <code>boot_out.txt</code> on your CIRCUITPY drive if you're not sure
+      which version you're running, e.g. "10.x"). bundle releases get
+      periodic bug fixes, so grabbing the newest one for your version
+      line, rather than an old cached download, helps keep all your kits
+      consistent. it will land in your <strong>Downloads</strong> folder.
+      unzip it, then from inside the unzipped folder's <code>lib</code>
+      subfolder, drag these two items onto your CIRCUITPY drive, into a
+      folder there also named <code>lib</code> (create that folder if it
+      doesn't exist yet):
     </p>
     <ul class="plain">
       <li><code>adafruit_il0373.mpy</code></li>
