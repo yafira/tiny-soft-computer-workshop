@@ -27,6 +27,27 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <section class="block">
+    <h2>quick reference: flashing a batch</h2>
+    <p>
+      if you've already been through the full setup once and just need a
+      fast checklist for preparing multiple units, here it is. full
+      detail on each step is below.
+    </p>
+    <ol class="steps">
+      <li>disconnect the eInk display before entering bootloader mode, for every board.</li>
+      <li>flash CircuitPython 10.x, if it isn't already installed.</li>
+      <li>copy <code>lib/adafruit_il0373.mpy</code> and <code>lib/adafruit_display_text/</code> onto the board.</li>
+      <li>copy the final <a href="/code">code.py</a> onto the board.</li>
+      <li>reconnect the display and test: the intro screen should appear, press the button once, and confirm it starts cycling through messages with the countdown printing on the serial console.</li>
+    </ol>
+    <p class="note">
+      keep a simple tally as you go, which units pass cleanly versus need
+      troubleshooting. that tells you a lot about consistency across the
+      batch before the workshop itself.
+    </p>
+  </section>
+
+  <section class="block">
     <h2>1. install CircuitPython</h2>
     <p class="note">
       before you start: disconnect the eInk display from the Feather.
