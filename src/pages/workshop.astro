@@ -14,29 +14,43 @@ import Layout from '../layouts/Layout.astro';
       every kit arrives fully preloaded, CircuitPython, libraries, and
       code are already installed and tested. you won't be doing any of
       the technical setup, that part is already done. here's what you
-      will do.
+      will do, in three parts.
     </p>
   </section>
 
-  <section class="block">
-    <span class="tag">step one</span>
-    <h2>tweak the code</h2>
-    <p>
-      open <a href="/code">the code</a> and find the list near the top,
-      clearly marked. add your own lines, remove ones that don't feel
-      right, reorder them. that's the whole interface. keep each one
-      short, the screen is small.
-    </p>
-  </section>
+  <div class="divider">✿</div>
 
   <section class="block">
-    <span class="tag">step two</span>
-    <h2>wire the button</h2>
+    <span class="tag">part one</span>
+    <h2>hardware: seat the display, wire the button</h2>
     <p>
-      your kit includes a small button and two wires. one wire connects
-      to pin <code>A2</code>, the other to any <code>GND</code> pin. no
-      soldering, no resistors, just two connections.
+      before touching any code, get the physical pieces connected. this
+      comes first since the software part assumes the hardware already
+      works.
     </p>
+    <h3>seat the display</h3>
+    <p>
+      if your kit's display isn't already seated in the microcontroller's
+      docking port, open the latches, insert the ribbon cable, and close
+      the latches to hold it in place.
+    </p>
+    <img
+      class="step-image"
+      src="/images/hardware-step-0.png"
+      alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
+    >
+    <h3>wire the button</h3>
+    <ol class="steps">
+      <li>find the button and its two wires in your kit.</li>
+      <li>connect one wire to pin <code>A2</code> on the board.</li>
+      <li>connect the other wire to any <code>GND</code> (ground) pin.</li>
+      <li>that's it, no soldering and no resistors needed.</li>
+    </ol>
+    <img
+      class="step-image"
+      src="/images/hardware-step-1.png"
+      alt="Step 1: wrap the wire at the end of the alligator clips around microcontroller pins labeled GND and A2. Make sure they're secure and not touching other pads."
+    >
     <p class="note">
       a button has 4 legs in 2 connected pairs. your two wires need to be
       on opposite sides. if the button doesn't respond, or responds
@@ -44,15 +58,60 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
+  <div class="divider">✿</div>
+
   <section class="block">
-    <span class="tag">step three</span>
-    <h2>build your enclosure</h2>
+    <span class="tag">part two</span>
+    <h2>software: make the messages your own</h2>
     <p>
-      this is the open-ended part. see <a href="/fabrication">fabrication</a>
-      for materials and a starting technique, but the form is yours to
-      decide. soft, hard, exposed, hidden, anything that fits your
-      electronics and lets the screen and button stay accessible.
+      the board already runs everything, you're only editing one part:
+      the list of messages and small drawings it shows. this is done in
+      an editor called Mu, which is already set up on the workshop
+      laptops.
     </p>
+    <ol class="steps">
+      <li>plug your kit into the laptop with a USB-C cable, if it isn't already.</li>
+      <li>open <strong>Mu Editor</strong>. it should detect your board automatically.</li>
+      <li>in Mu, open <code>code.py</code> from your board's CIRCUITPY drive.</li>
+      <li>scroll to the section near the top marked <code># MESSAGES + ASCII ART</code>. everything below that comment, up to the closing bracket, is the part you can edit.</li>
+      <li>add, remove, or rewrite lines in the list. keep each message short, the screen is small, and long lines wrap automatically onto a couple of lines.</li>
+      <li>save the file (<code>Cmd+S</code> or <code>Ctrl+S</code>). the board restarts on its own and picks up your changes.</li>
+      <li>press the button once to start it running with your new messages.</li>
+    </ol>
+    <div class="diagram-placeholder">
+      <p>photo coming soon</p>
+      <p class="note" style="margin: 0;">
+        will show: Mu Editor open with code.py, the content list highlighted
+      </p>
+    </div>
+    <p class="note">
+      want to see the full code with syntax and comments explained? the
+      <a href="/code">code page</a> has the whole file, with a copy
+      button if you want to grab it.
+    </p>
+  </section>
+
+  <div class="divider">✿</div>
+
+  <section class="block">
+    <span class="tag">part three</span>
+    <h2>fabrication: build your enclosure</h2>
+    <p>
+      this is the open-ended part, and the one with no fixed steps. see
+      <a href="/fabrication">fabrication</a> for materials and a starting
+      technique, but the form itself is yours to decide.
+    </p>
+    <ul class="plain">
+      <li>soft, hard, exposed, hidden, anything goes.</li>
+      <li>the only real constraints: it fits around your electronics, the screen stays visible, and the button stays reachable.</li>
+      <li>we provide soft materials (felt, fabric, cardboard), and you're welcome to bring your own repurposed items too.</li>
+    </ul>
+    <div class="diagram-placeholder">
+      <p>photo coming soon</p>
+      <p class="note" style="margin: 0;">
+        will show: a finished enclosure example
+      </p>
+    </div>
   </section>
 
   <div class="divider">✿</div>

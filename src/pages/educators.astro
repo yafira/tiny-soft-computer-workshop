@@ -48,6 +48,25 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <section class="block">
+    <h2>0. seat the display</h2>
+    <p>
+      before anything else, the eInk display's ribbon cable needs to be
+      seated into the Feather's display connector. this only needs to
+      happen once per kit.
+    </p>
+    <img
+      class="step-image"
+      src="/images/hardware-step-0.png"
+      alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
+    >
+    <p class="note">
+      the latches need to be open before you insert the cable, and
+      closed firmly afterward to hold it in place. the cable only fits
+      one way, don't force it if it's not sliding in easily.
+    </p>
+  </section>
+
+  <section class="block">
     <h2>1. install CircuitPython</h2>
     <p class="note">
       before you start: disconnect the eInk display from the Feather.
@@ -119,13 +138,11 @@ import Layout from '../layouts/Layout.astro';
 
   <section class="block">
     <h2>hardware: where things connect</h2>
-    <div class="diagram-placeholder">
-      <p>pin diagram coming soon</p>
-      <p class="note" style="margin: 0;">
-        will highlight: <code>A2</code> (button signal), <code>GND</code>
-        (button ground), and the 24-pin eInk display connector
-      </p>
-    </div>
+    <img
+      class="step-image"
+      src="/images/hardware-step-1.png"
+      alt="Step 1: wrap the wire at the end of the alligator clips around microcontroller pins labeled GND and A2. Make sure they're secure and not touching other pads."
+    >
     <p>
       the button needs two wires: one leg to pin <code>A2</code>, the other
       leg to any <code>GND</code> pin. no resistor is needed, the code
