@@ -329,6 +329,32 @@ section.block:last-of-type {
   margin-bottom: 0.5rem;
 }
 
+/* multiple placeholders shown side by side, e.g. material options */
+.placeholder-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+
+.placeholder-grid .diagram-placeholder {
+  margin: 0;
+  padding: 1.6rem 0.8rem;
+}
+
+@media (max-width: 34rem) {
+  .placeholder-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* step-by-step hardware photos */
+.step-image {
+  width: 100%;
+  margin: 1.2rem 0;
+  display: block;
+}
+
 /* code blocks */
 
 pre {

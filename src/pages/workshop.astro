@@ -16,6 +16,21 @@ import Layout from '../layouts/Layout.astro';
       the technical setup, that part is already done. here's what you
       will do, in three parts.
     </p>
+    <img
+      class="step-image"
+      src="/images/kit-overview.png"
+      alt="Everything in a tiny soft computer kit: a Feather RP2040 ThinkInk board, a 24-pin flexible eInk display already showing tiny soft computer, two alligator clip wires, a USB-C cable, and two tactile buttons."
+    >
+  </section>
+
+  <section class="block">
+    <h2>what's in the kit</h2>
+    <ul class="plain">
+      <li>2.13" 212×104 Flexible Monochrome / 4-Gray eInk ePaper Display, ILI0373 chipset</li>
+      <li>Adafruit RP2040 Feather ThinkInk for 24-pin E-Paper Displays, STEMMA QT</li>
+      <li>2 soft silicone top 6mm push-buttons</li>
+      <li>2 alligator clips</li>
+    </ul>
   </section>
 
   <div class="divider">✿</div>
@@ -28,17 +43,30 @@ import Layout from '../layouts/Layout.astro';
       comes first since the software part assumes the hardware already
       works.
     </p>
+
     <h3>seat the display</h3>
     <p>
       if your kit's display isn't already seated in the microcontroller's
       docking port, open the latches, insert the ribbon cable, and close
       the latches to hold it in place.
     </p>
+    <p class="note">
+      go gently here. the ribbon cable is thin and the display is soft,
+      it's not meant to take force. let it slide in on its own, don't
+      push. remember, these are <em>soft</em> computers, treat the
+      cable the way you'd want to be treated.
+    </p>
     <img
       class="step-image"
       src="/images/hardware-step-0.png"
       alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
     >
+    <img
+      class="step-image"
+      src="/images/inserting-display-closeup.png"
+      alt="A closer look at the display connector on the Feather board, showing where the ribbon cable seats into the docking port."
+    >
+
     <h3>wire the button</h3>
     <ol class="steps">
       <li>find the button and its two wires in your kit.</li>
@@ -50,6 +78,11 @@ import Layout from '../layouts/Layout.astro';
       class="step-image"
       src="/images/hardware-step-1.png"
       alt="Step 1: wrap the wire at the end of the alligator clips around microcontroller pins labeled GND and A2. Make sure they're secure and not touching other pads."
+    >
+    <img
+      class="step-image"
+      src="/images/pins-closeup.png"
+      alt="A labeled close-up of the A2 and GND pins on the Feather board, with wires already connected, for reference while wiring."
     >
     <p class="note">
       a button has 4 legs in 2 connected pairs. your two wires need to be
@@ -69,21 +102,35 @@ import Layout from '../layouts/Layout.astro';
       an editor called Mu, which is already set up on the workshop
       laptops.
     </p>
+
+    <h3>opening your code</h3>
     <ol class="steps">
       <li>plug your kit into the laptop with a USB-C cable, if it isn't already.</li>
-      <li>open <strong>Mu Editor</strong>. it should detect your board automatically.</li>
-      <li>in Mu, open <code>code.py</code> from your board's CIRCUITPY drive.</li>
-      <li>scroll to the section near the top marked <code># MESSAGES + ASCII ART</code>. everything below that comment, up to the closing bracket, is the part you can edit.</li>
-      <li>add, remove, or rewrite lines in the list. keep each message short, the screen is small, and long lines wrap automatically onto a couple of lines.</li>
-      <li>save the file (<code>Cmd+S</code> or <code>Ctrl+S</code>). the board restarts on its own and picks up your changes.</li>
-      <li>press the button once to start it running with your new messages.</li>
+      <li>your board should show up as a drive named <code>CIRCUITPY</code>, the same way a USB flash drive would.</li>
+      <li>open <strong>Mu Editor</strong> on the laptop. it should detect your board automatically and show a message at the bottom of the window.</li>
+      <li>in Mu, use <strong>File → Open</strong> (or the Load button) and choose <code>code.py</code> from the CIRCUITPY drive.</li>
     </ol>
-    <div class="diagram-placeholder">
-      <p>photo coming soon</p>
-      <p class="note" style="margin: 0;">
-        will show: Mu Editor open with code.py, the content list highlighted
-      </p>
-    </div>
+
+    <h3>editing the messages</h3>
+    <ol class="steps">
+      <li>scroll to the section near the top marked <code># MESSAGES + ASCII ART</code>. everything inside the square brackets below that comment is the part you can edit.</li>
+      <li>each message is its own line, in quotes, followed by a comma. add a new one by copying that pattern, or remove one by deleting its line.</li>
+      <li>keep messages short, the screen is small, and long lines wrap automatically onto a couple of lines if needed.</li>
+      <li>you can also add small ASCII drawings the same way the "tiny sun" one is written, a few short lines of characters.</li>
+    </ol>
+
+    <h3>saving and running it</h3>
+    <ol class="steps">
+      <li>save the file with <code>Cmd+S</code> (Mac) or <code>Ctrl+S</code> (Windows).</li>
+      <li>the board notices the change and restarts on its own, this is normal, you'll see it happen in Mu's serial console at the bottom of the window.</li>
+      <li>once it settles back on the intro screen, press the button once to start it running with your new messages.</li>
+    </ol>
+
+    <img
+      class="step-image"
+      src="/images/mu-editor-open.png"
+      alt="Mu Editor open with code.py loaded, showing the file's imports and the start of the content list of messages and ASCII art."
+    >
     <p class="note">
       want to see the full code with syntax and comments explained? the
       <a href="/code">code page</a> has the whole file, with a copy
@@ -95,7 +142,7 @@ import Layout from '../layouts/Layout.astro';
 
   <section class="block">
     <span class="tag">part three</span>
-    <h2>fabrication: build your enclosure</h2>
+    <h2>fabrication: build and decorate your tiny soft computer</h2>
     <p>
       this is the open-ended part, and the one with no fixed steps. see
       <a href="/fabrication">fabrication</a> for materials and a starting
@@ -106,12 +153,47 @@ import Layout from '../layouts/Layout.astro';
       <li>the only real constraints: it fits around your electronics, the screen stays visible, and the button stays reachable.</li>
       <li>we provide soft materials (felt, fabric, cardboard), and you're welcome to bring your own repurposed items too.</li>
     </ul>
-    <div class="diagram-placeholder">
-      <p>photo coming soon</p>
-      <p class="note" style="margin: 0;">
-        will show: a finished enclosure example
-      </p>
+
+    <p>
+      your kit actually arrived in its own small cardboard box, and that
+      box works perfectly well as a base prototype enclosure just as it
+      is. cut a window for the screen, poke a hole for the button, and
+      you're done, no extra materials required. but it's just a starting
+      point, not a requirement. fabric, paper, another kind of box
+      entirely, whatever material speaks to you is fair game. this part
+      is meant to be explored, take your time and have fun with it.
+    </p>
+
+    <div class="placeholder-grid">
+      <div class="diagram-placeholder">
+        <p>cardboard</p>
+        <p class="note" style="margin: 0;">
+          the kit's own box, reused as-is
+        </p>
+      </div>
+      <div class="diagram-placeholder">
+        <p>fabric</p>
+        <p class="note" style="margin: 0;">
+          a soft, sewn enclosure
+        </p>
+      </div>
+      <div class="diagram-placeholder">
+        <p>paper</p>
+        <p class="note" style="margin: 0;">
+          folded, layered, or collaged
+        </p>
+      </div>
     </div>
+
+    <img
+      class="step-image"
+      src="/images/cardboard-enclosure.png"
+      alt="The kit's cardboard box, cut and folded into a small enclosure with a window for the display, held in someone's hand."
+    >
+    <p class="note" style="margin-top: -0.6rem;">
+      the kit's own box, cut and folded into a simple enclosure. see
+      <a href="/fabrication">fabrication</a> for more starting points.
+    </p>
   </section>
 
   <div class="divider">✿</div>
