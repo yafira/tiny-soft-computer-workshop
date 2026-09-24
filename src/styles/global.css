@@ -270,6 +270,12 @@ nav.site-nav a[aria-current="page"] {
   font-size: 1rem;
 }
 
+.divider-icon {
+  width: 1.1rem;
+  height: auto;
+  display: inline-block;
+}
+
 /* section blocks */
 
 section.block {
