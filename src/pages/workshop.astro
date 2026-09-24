@@ -10,17 +10,17 @@ import Layout from '../layouts/Layout.astro';
   <section class="hero" style="padding-top: 2.5rem;">
     <p class="kicker">workshop day</p>
     <h1>your kit is ready. you're just here to make it yours.</h1>
+    <img
+      class="step-image"
+      src="/images/kit-overview.png"
+      alt="Everything in a tiny soft computer kit: a Feather RP2040 ThinkInk board, a 24-pin flexible eInk display already showing tiny soft computer, two alligator clip wires, a USB-C cable, and two tactile buttons."
+    >
     <p class="lede">
       every kit arrives fully preloaded, CircuitPython, libraries, and
       code are already installed and tested. you won't be doing any of
       the technical setup, that part is already done. here's what you
       will do, in three parts.
     </p>
-    <img
-      class="step-image"
-      src="/images/kit-overview.png"
-      alt="Everything in a tiny soft computer kit: a Feather RP2040 ThinkInk board, a 24-pin flexible eInk display already showing tiny soft computer, two alligator clip wires, a USB-C cable, and two tactile buttons."
-    >
   </section>
 
   <section class="block">
@@ -45,6 +45,16 @@ import Layout from '../layouts/Layout.astro';
     </p>
 
     <h3>seat the display</h3>
+    <img
+      class="step-image"
+      src="/images/hardware-step-0.png"
+      alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
+    >
+    <img
+      class="step-image"
+      src="/images/inserting-display-closeup.png"
+      alt="A closer look at the display connector on the Feather board, showing where the ribbon cable seats into the docking port."
+    >
     <p>
       if your kit's display isn't already seated in the microcontroller's
       docking port, open the latches, insert the ribbon cable, and close
@@ -56,24 +66,8 @@ import Layout from '../layouts/Layout.astro';
       push. remember, these are <em>soft</em> computers, treat the
       cable the way you'd want to be treated.
     </p>
-    <img
-      class="step-image"
-      src="/images/hardware-step-0.png"
-      alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
-    >
-    <img
-      class="step-image"
-      src="/images/inserting-display-closeup.png"
-      alt="A closer look at the display connector on the Feather board, showing where the ribbon cable seats into the docking port."
-    >
 
     <h3>wire the button</h3>
-    <ol class="steps">
-      <li>find the button and its two wires in your kit.</li>
-      <li>connect one wire to pin <code>A2</code> on the board.</li>
-      <li>connect the other wire to any <code>GND</code> (ground) pin.</li>
-      <li>that's it, no soldering and no resistors needed.</li>
-    </ol>
     <img
       class="step-image"
       src="/images/hardware-step-1.png"
@@ -84,6 +78,12 @@ import Layout from '../layouts/Layout.astro';
       src="/images/pins-closeup.png"
       alt="A labeled close-up of the A2 and GND pins on the Feather board, with wires already connected, for reference while wiring."
     >
+    <ol class="steps">
+      <li>find the button and its two wires in your kit.</li>
+      <li>connect one wire to pin <code>A2</code> on the board.</li>
+      <li>connect the other wire to any <code>GND</code> (ground) pin.</li>
+      <li>that's it, no soldering and no resistors needed.</li>
+    </ol>
     <p class="note">
       a button has 4 legs in 2 connected pairs. your two wires need to be
       on opposite sides. if the button doesn't respond, or responds
@@ -104,6 +104,11 @@ import Layout from '../layouts/Layout.astro';
     </p>
 
     <h3>opening your code</h3>
+    <img
+      class="step-image"
+      src="/images/mu-editor-open.png"
+      alt="Mu Editor open with code.py loaded, showing the file's imports and the start of the content list of messages and ASCII art."
+    >
     <ol class="steps">
       <li>plug your kit into the laptop with a USB-C cable, if it isn't already.</li>
       <li>your board should show up as a drive named <code>CIRCUITPY</code>, the same way a USB flash drive would.</li>
@@ -125,12 +130,6 @@ import Layout from '../layouts/Layout.astro';
       <li>the board notices the change and restarts on its own, this is normal, you'll see it happen in Mu's serial console at the bottom of the window.</li>
       <li>once it settles back on the intro screen, press the button once to start it running with your new messages.</li>
     </ol>
-
-    <img
-      class="step-image"
-      src="/images/mu-editor-open.png"
-      alt="Mu Editor open with code.py loaded, showing the file's imports and the start of the content list of messages and ASCII art."
-    >
     <p class="note">
       want to see the full code with syntax and comments explained? the
       <a href="/code">code page</a> has the whole file, with a copy
@@ -143,6 +142,14 @@ import Layout from '../layouts/Layout.astro';
   <section class="block">
     <span class="tag">part three</span>
     <h2>fabrication: build and decorate your tiny soft computer</h2>
+    <img
+      class="step-image"
+      src="/images/cardboard-enclosure.png"
+      alt="The kit's cardboard box, cut and folded into a small enclosure with a window for the display, held in someone's hand."
+    >
+    <p class="note" style="margin-top: -0.6rem;">
+      the kit's own box, cut and folded into a simple enclosure.
+    </p>
     <p>
       this is the open-ended part, and the one with no fixed steps. see
       <a href="/fabrication">fabrication</a> for materials and a starting
@@ -184,16 +191,6 @@ import Layout from '../layouts/Layout.astro';
         </p>
       </div>
     </div>
-
-    <img
-      class="step-image"
-      src="/images/cardboard-enclosure.png"
-      alt="The kit's cardboard box, cut and folded into a small enclosure with a window for the display, held in someone's hand."
-    >
-    <p class="note" style="margin-top: -0.6rem;">
-      the kit's own box, cut and folded into a simple enclosure. see
-      <a href="/fabrication">fabrication</a> for more starting points.
-    </p>
   </section>
 
   <div class="divider">✿</div>
