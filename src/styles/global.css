@@ -368,6 +368,8 @@ pre {
   color: #efeae0;
   padding: 1.2rem 1.3rem;
   overflow-x: auto;
+  overflow-y: auto;
+  max-height: 32rem;
   font-size: 0.82rem;
   line-height: 1.55;
   border: 1px solid var(--ink);

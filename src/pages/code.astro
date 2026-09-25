@@ -7,6 +7,11 @@ const codeContent = fs.readFileSync(
   path.resolve('./public/tiny_soft_computer_code.py'),
   'utf-8'
 );
+
+const oledCodeContent = fs.readFileSync(
+  path.resolve('./public/tiny_soft_computer_oled_code.py'),
+  'utf-8'
+);
 ---
 <Layout
   title="the code — tiny soft computer"
@@ -48,6 +53,23 @@ const codeContent = fs.readFileSync(
   </section>
 
   <section class="block">
+    <h2>alternative: OLED version</h2>
+    <p>
+      if you're using a monochrome OLED instead of the eInk display (see
+      <a href="/resources">resources</a> for why and how to swap), this
+      is the working code for it. simpler than the eInk version, since
+      OLED has no refresh-rate limit to design around.
+    </p>
+    <div class="code-block">
+      <button class="copy-btn" id="copy-oled-code-btn" type="button">copy</button>
+      <pre><code id="oled-code-content">{oledCodeContent}</code></pre>
+    </div>
+    <p>
+      <a class="btn" href="/tiny_soft_computer_oled_code.py" download>download OLED code.py</a>
+    </p>
+  </section>
+
+  <section class="block">
     <h2>libraries this needs</h2>
     <p>from the CircuitPython Library Bundle, matching your board's version:</p>
     <ul class="plain">
@@ -58,21 +80,25 @@ const codeContent = fs.readFileSync(
   </section>
 
   <script is:inline>
-    const copyBtn = document.getElementById('copy-code-btn');
-    const codeEl = document.getElementById('code-content');
-    if (copyBtn && codeEl) {
-      copyBtn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(codeEl.textContent);
-          copyBtn.textContent = 'copied!';
-        } catch (err) {
-          copyBtn.textContent = 'couldn\'t copy';
-        }
-        setTimeout(() => {
-          copyBtn.textContent = 'copy';
-        }, 2000);
-      });
+    function wireCopyButton(buttonId, codeId) {
+      const copyBtn = document.getElementById(buttonId);
+      const codeEl = document.getElementById(codeId);
+      if (copyBtn && codeEl) {
+        copyBtn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(codeEl.textContent);
+            copyBtn.textContent = 'copied!';
+          } catch (err) {
+            copyBtn.textContent = 'couldn\'t copy';
+          }
+          setTimeout(() => {
+            copyBtn.textContent = 'copy';
+          }, 2000);
+        });
+      }
     }
+    wireCopyButton('copy-code-btn', 'code-content');
+    wireCopyButton('copy-oled-code-btn', 'oled-code-content');
   </script>
 
 </Layout>
