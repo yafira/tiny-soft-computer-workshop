@@ -90,6 +90,20 @@ import Layout from '../layouts/Layout.astro';
     </p>
 
     <h3>OLED alternative: what to buy</h3>
+    <img
+      class="step-image"
+      src="/images/oled-326.png"
+      alt="Adafruit Monochrome 0.96 inch 128x64 OLED Graphic Display with STEMMA QT connector, product 326."
+    >
+    <img
+      class="step-image"
+      src="/images/stemma-qt-cable.png"
+      alt="A STEMMA QT / Qwiic 4-pin JST-SH cable, the only wire needed to connect the OLED to the Feather's built-in STEMMA QT port."
+    >
+    <p class="note" style="margin-top: -0.6rem;">
+      the OLED, and the cable that connects it, that's the entire
+      wiring step, no soldering, no loose pins.
+    </p>
     <table class="bom">
       <thead>
         <tr>
@@ -132,21 +146,26 @@ import Layout from '../layouts/Layout.astro';
 
     <h3>OLED alternative: code changes</h3>
     <p>
-      the display driver is different, so parts of <code>code.py</code>
-      need to change. everything else, the <code>content</code> list,
-      the button logic, <code>CONTENT_INTERVAL</code>, stays the same.
+      the display driver is different, and since OLED has no refresh
+      limit, the code is actually simpler, not just adapted. the
+      shuffle-and-wait architecture in the eInk version exists only to
+      work around its 180-second limit, none of that is needed here.
     </p>
     <ul class="plain">
       <li>swap the library: use <code>adafruit_displayio_ssd1306</code> instead of <code>adafruit_il0373</code></li>
-      <li>swap the display setup: initialize over I2C via <code>board.STEMMA_I2C()</code> instead of the SPI/FourWire setup the eInk display needs</li>
-      <li>remove the 180-second wait entirely, OLED refreshes instantly, so <code>CONTENT_INTERVAL</code> can be lowered dramatically or the wait logic simplified out</li>
-      <li>the <code>draw_screen()</code> function's white-background bitmap and text drawing logic stays nearly identical, OLED and eInk both use the same <code>displayio</code> approach underneath</li>
+      <li>swap the display setup: initialize over I2C via <code>board.STEMMA_I2C()</code> instead of the SPI/FourWire setup the eInk display needs, and no busy pin</li>
+      <li>no refresh-limit logic at all, the display auto-updates the instant you set <code>display.root_group</code></li>
+      <li>each button press can show a new random message immediately, rather than the eInk version's one-press-starts-a-forever-loop approach</li>
     </ul>
+    <p>
+      <a class="btn" href="/tiny_soft_computer_oled_code.py" download>download the working OLED code.py</a>
+    </p>
     <p class="note">
       this project's earliest prototype was actually built on this exact
-      OLED, before switching to eInk for the paper-like quality. if
-      you'd rather start from that working version than adapt the eInk
-      code yourself, ask, that code still exists.
+      OLED, before switching to eInk for the paper-like quality. the
+      file above is a real, tested adaptation of the current
+      <code>content</code> list and button logic, not just a sketch of
+      what it would need.
     </p>
   </section>
 
