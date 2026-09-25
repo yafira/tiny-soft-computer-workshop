@@ -72,10 +72,19 @@ const oledCodeContent = fs.readFileSync(
   <section class="block">
     <h2>libraries this needs</h2>
     <p>from the CircuitPython Library Bundle, matching your board's version:</p>
+
+    <h3>for the eInk version (code.py above)</h3>
     <ul class="plain">
       <li><code>adafruit_il0373.mpy</code></li>
       <li><code>adafruit_display_text</code> (folder)</li>
     </ul>
+
+    <h3>for the OLED version</h3>
+    <ul class="plain">
+      <li><code>adafruit_displayio_ssd1306.mpy</code></li>
+      <li><code>adafruit_display_text</code> (folder), same one, shared by both versions</li>
+    </ul>
+
     <p>full install steps are on the <a href="/educators">educator setup guide</a>.</p>
   </section>
 
