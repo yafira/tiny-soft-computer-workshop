@@ -82,8 +82,13 @@ import Layout from '../layouts/Layout.astro';
       <li>find the button and its two wires in your kit.</li>
       <li>connect one wire to pin <code>A2</code> on the board.</li>
       <li>connect the other wire to any <code>GND</code> (ground) pin.</li>
-      <li>that's it, no soldering and no resistors needed.</li>
+      <li>alligator clips work fine as-is, no soldering or resistors needed.</li>
     </ol>
+    <p class="note">
+      soldering is optional. it makes for a more stable, permanent
+      connection if you want one, but for now, alligator clips are
+      completely fine and easy to adjust if something needs to move.
+    </p>
     <p class="note">
       a button has 4 legs in 2 connected pairs. your two wires need to be
       on opposite sides. if the button doesn't respond, or responds
@@ -187,19 +192,27 @@ import Layout from '../layouts/Layout.astro';
       <div class="diagram-placeholder">
         <p>cardboard</p>
         <p class="note" style="margin: 0;">
-          the kit's own box, reused as-is
+          the kit's own box, reused as-is (see photo above)
         </p>
       </div>
-      <div class="diagram-placeholder">
-        <p>fabric</p>
-        <p class="note" style="margin: 0;">
-          a soft, sewn enclosure
+      <div>
+        <img
+          class="step-image"
+          src="/images/fabric-example.png"
+          alt="A tiny soft computer mounted on pink and white striped fabric stretched in a teal embroidery hoop, wired with yellow and green alligator clips."
+        >
+        <p class="note" style="margin-top: -0.6rem;">
+          fabric, stretched in an embroidery hoop
         </p>
       </div>
-      <div class="diagram-placeholder">
-        <p>paper</p>
-        <p class="note" style="margin: 0;">
-          folded, layered, or collaged
+      <div>
+        <img
+          class="step-image"
+          src="/images/packaging-example.png"
+          alt="A tiny soft computer's components resting on pink bubble wrap packaging material."
+        >
+        <p class="note" style="margin-top: -0.6rem;">
+          packaging, bubble wrap and whatever else is on hand
         </p>
       </div>
     </div>
