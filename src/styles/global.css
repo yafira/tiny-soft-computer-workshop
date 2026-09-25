@@ -430,6 +430,45 @@ ul.plain li {
   margin-bottom: 0.5rem;
 }
 
+/* bill of materials tables */
+table.bom {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: 0.9rem;
+}
+
+table.bom th,
+table.bom td {
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+table.bom th {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+table.bom td:nth-child(2),
+table.bom td:nth-child(3),
+table.bom th:nth-child(2),
+table.bom th:nth-child(3) {
+  white-space: nowrap;
+}
+
+@media (max-width: 30rem) {
+  table.bom {
+    font-size: 0.8rem;
+  }
+  table.bom th,
+  table.bom td {
+    padding: 0.5rem 0.4rem;
+  }
+}
+
 .note {
   border-left: 2px solid var(--lavender);
   padding-left: 1rem;

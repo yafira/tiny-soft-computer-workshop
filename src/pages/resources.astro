@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 <Layout
   title="resources — tiny soft computer"
-  description="Bill of materials and classroom-friendly alternatives for the tiny soft computer kit."
+  description="Bill of materials, exact pricing, and classroom-friendly alternatives for the tiny soft computer kit."
   active="resources"
 >
 
@@ -12,37 +12,141 @@ import Layout from '../layouts/Layout.astro';
     <h1>what's in the kit, and what you can swap</h1>
     <p class="lede">
       for educators adapting this kit to their own classroom, budget, or
-      what's actually in stock.
+      what's actually in stock. all prices are from Adafruit's own site,
+      pulled at the time this page was last updated, always double-check
+      before ordering in bulk since prices and stock shift.
     </p>
   </section>
 
   <section class="block">
-    <h2>bill of materials</h2>
-    <ul class="plain">
-      <li>Adafruit RP2040 Feather ThinkInk</li>
-      <li>2.13" 212×104 Flexible Monochrome eInk display (ILI0373)</li>
-      <li>tactile push button</li>
-      <li>2 wires (alligator clips or jumper wires)</li>
-      <li>USB-C cable</li>
-    </ul>
+    <h2>bill of materials, per kit</h2>
+    <table class="bom">
+      <thead>
+        <tr>
+          <th>item</th>
+          <th>unit price</th>
+          <th>10–99 qty price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Adafruit RP2040 Feather ThinkInk for 24-pin E-Paper Displays, STEMMA QT (<a href="https://www.adafruit.com/product/5727">#5727</a>)</td>
+          <td>$17.50</td>
+          <td>$15.75</td>
+        </tr>
+        <tr>
+          <td>2.13" 212×104 Flexible Monochrome/4-Gray eInk ePaper Display, ILI0373 (<a href="https://www.adafruit.com/product/4243">#4243</a>)</td>
+          <td>$17.50</td>
+          <td>$15.75</td>
+        </tr>
+        <tr>
+          <td>Soft Silicone Top 6mm Push-buttons, 20-pack (<a href="https://www.adafruit.com/product/4183">#4183</a>), 2 used per kit</td>
+          <td>$2.50 / pack</td>
+          <td>$2.25 / pack</td>
+        </tr>
+        <tr>
+          <td>Small Alligator Clip to Male Jumper Wire Bundle, 12-piece (<a href="https://www.adafruit.com/product/3255">#3255</a>), 2 used per kit</td>
+          <td>$7.95 / bundle</td>
+          <td>$7.16 / bundle</td>
+        </tr>
+        <tr>
+          <td>USB Type A to Type C Cable, 1m (<a href="https://www.adafruit.com/product/4474">#4474</a>)</td>
+          <td>$4.95</td>
+          <td>$4.46</td>
+        </tr>
+      </tbody>
+    </table>
     <p class="note">
-      exact current pricing changes, check Adafruit's site directly
-      before ordering in bulk.
+      the button and clip packs cover several kits each, one 20-pack of
+      buttons covers 10 kits, one 12-piece clip bundle covers 6 kits.
+      order accordingly rather than one pack per kit.
     </p>
+    <p class="note">
+      <strong>stock warning:</strong> the flexible eInk display (#4243)
+      has shown very low stock at times, as few as 5 units. if you're
+      ordering a full classroom set, check availability early and order
+      well ahead of your workshop date.
+    </p>
+  </section>
+
+  <section class="block">
+    <h2>what you'll also need, not in the kit</h2>
+    <ul class="plain">
+      <li>a laptop or computer to run Mu Editor</li>
+      <li><a href="https://codewith.mu/en/download">Mu Editor</a>, free, works on Mac, Windows, and Linux</li>
+      <li>scissors, an xacto knife, or similar for the enclosure</li>
+      <li>felt, fabric, cardboard, or other materials for fabrication (see <a href="/fabrication">fabrication</a>)</li>
+    </ul>
   </section>
 
   <section class="block">
     <h2>alternatives</h2>
     <p>
       the flexible eInk display has a real hardware limit: it can only
-      redraw once every few minutes (see <a href="/about">about</a> for
-      why). if that pacing doesn't fit your classroom's timing, a
-      monochrome OLED display swaps in cleanly, same microcontroller,
-      instant refresh, no waiting. it trades away the eInk's paper-like
-      quality for speed.
+      redraw once every 180 seconds (see <a href="/about">about</a> for
+      why). if that pacing doesn't fit your classroom's timing, or if
+      the eInk display is out of stock, a monochrome OLED display swaps
+      in cleanly on the exact same microcontroller.
+    </p>
+
+    <h3>OLED alternative: what to buy</h3>
+    <table class="bom">
+      <thead>
+        <tr>
+          <th>item</th>
+          <th>unit price</th>
+          <th>10–99 qty price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monochrome 0.96" 128×64 OLED Graphic Display, STEMMA QT (<a href="https://www.adafruit.com/product/326">#326</a>)</td>
+          <td>$17.50</td>
+          <td>$15.75</td>
+        </tr>
+        <tr>
+          <td>STEMMA QT / Qwiic JST SH 4-Pin Cable, 50mm (<a href="https://www.adafruit.com/product/4399">#4399</a>)</td>
+          <td>$0.95</td>
+          <td>$0.95</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      same price as the eInk display, and the same Feather ThinkInk
+      board works for both, no need to buy a different microcontroller.
+    </p>
+
+    <h3>OLED alternative: wiring</h3>
+    <p>
+      the Feather ThinkInk has a built-in STEMMA QT port. the OLED also
+      has one. connect them with the STEMMA QT cable, that's the entire
+      wiring step, no soldering, no loose wires, no pin matching. this is
+      actually simpler to wire than the eInk display, which uses the
+      separate 24-pin FPC connector instead.
     </p>
     <p class="note">
-      full alternative wiring and code notes coming soon.
+      the button wiring (<code>A2</code> and <code>GND</code>) stays
+      exactly the same regardless of which display you use, that part
+      of the circuit doesn't change.
+    </p>
+
+    <h3>OLED alternative: code changes</h3>
+    <p>
+      the display driver is different, so parts of <code>code.py</code>
+      need to change. everything else, the <code>content</code> list,
+      the button logic, <code>CONTENT_INTERVAL</code>, stays the same.
+    </p>
+    <ul class="plain">
+      <li>swap the library: use <code>adafruit_displayio_ssd1306</code> instead of <code>adafruit_il0373</code></li>
+      <li>swap the display setup: initialize over I2C via <code>board.STEMMA_I2C()</code> instead of the SPI/FourWire setup the eInk display needs</li>
+      <li>remove the 180-second wait entirely, OLED refreshes instantly, so <code>CONTENT_INTERVAL</code> can be lowered dramatically or the wait logic simplified out</li>
+      <li>the <code>draw_screen()</code> function's white-background bitmap and text drawing logic stays nearly identical, OLED and eInk both use the same <code>displayio</code> approach underneath</li>
+    </ul>
+    <p class="note">
+      this project's earliest prototype was actually built on this exact
+      OLED, before switching to eInk for the paper-like quality. if
+      you'd rather start from that working version than adapt the eInk
+      code yourself, ask, that code still exists.
     </p>
   </section>
 
