@@ -276,6 +276,40 @@ import Layout from '../layouts/Layout.astro';
         follows is the actual fault.
       </p>
     </div>
+
+    <div class="reference">
+      <h3>OLED version: <code>ValueError: Unable to find I2C Display at 3c</code></h3>
+      <p>
+        this is an OLED-alternative issue, not an eInk one. most SSD1306
+        OLEDs answer at I2C address <code>0x3c</code>, but the exact
+        address is set by a jumper on the OLED board itself, so some
+        units answer at <code>0x3d</code> instead. across a batch of
+        kits, expect a mix.
+      </p>
+      <p>
+        the current OLED code handles this automatically: it scans the
+        I2C bus at startup and uses whichever address actually responds,
+        so this shouldn't come up if attendees are running the latest
+        version from the <a href="/code">code page</a>.
+      </p>
+      <p>
+        if it does come up anyway, it almost always means the STEMMA QT
+        cable isn't fully seated on one end, not a wrong address. reseat
+        both ends first. to check what's actually on the bus, run this in
+        the REPL:
+      </p>
+      <pre><code>import board
+i2c = board.STEMMA_I2C()
+while not i2c.try_lock():
+    pass
+print([hex(x) for x in i2c.scan()])
+i2c.unlock()</code></pre>
+      <p>
+        an empty list means nothing is responding, check the cable. a
+        different address showing up means that's the OLED, and the
+        auto-detect logic will pick it up on its own.
+      </p>
+    </div>
   </section>
 
   <section class="block">

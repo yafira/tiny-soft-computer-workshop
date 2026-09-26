@@ -99,10 +99,30 @@ button.pull = digitalio.Pull.UP
 # Set up the OLED over the board's built-in STEMMA QT connector.
 # This is I2C, not SPI, so there's no busy pin and no FourWire setup,
 # just plug the STEMMA QT cable in and go.
+#
+# most SSD1306 OLEDs answer at address 0x3c, but some units are set
+# to 0x3d instead (this is set by a jumper on the OLED board itself,
+# so it varies unit to unit, not something we can predict ahead of
+# time for a batch of kits). rather than guessing, scan the bus and
+# use whichever address actually responds.
 
 i2c = board.STEMMA_I2C()
 
-display_bus = i2cdisplaybus.I2CDisplayBus(i2c, device_address=0x3C)
+while not i2c.try_lock():
+    pass
+found_addresses = i2c.scan()
+i2c.unlock()
+
+if 0x3C in found_addresses:
+    oled_address = 0x3C
+elif 0x3D in found_addresses:
+    oled_address = 0x3D
+else:
+    print("no OLED found on the I2C bus.")
+    print("check that the STEMMA QT cable is fully seated on both ends.")
+    raise RuntimeError("no OLED detected at 0x3c or 0x3d")
+
+display_bus = i2cdisplaybus.I2CDisplayBus(i2c, device_address=oled_address)
 
 display = adafruit_displayio_ssd1306.SSD1306(
     display_bus,
