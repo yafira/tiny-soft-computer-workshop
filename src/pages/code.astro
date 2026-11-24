@@ -1,4 +1,5 @@
 ---
+import { p } from '../lib/url.js';
 import Layout from '../layouts/Layout.astro';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -48,7 +49,7 @@ const oledCodeContent = fs.readFileSync(
       <pre><code id="code-content">{codeContent}</code></pre>
     </div>
     <p>
-      <a class="btn" href="/tiny_soft_computer_code.py" download>download code.py</a>
+      <a class="btn" href={p('/tiny_soft_computer_code.py')} download>download code.py</a>
     </p>
   </section>
 
@@ -56,7 +57,7 @@ const oledCodeContent = fs.readFileSync(
     <h2>alternative: OLED version</h2>
     <p>
       if you're using a monochrome OLED instead of the eInk display (see
-      <a href="/resources">resources</a> for why and how to swap), this
+      <a href={p('/resources')}>resources</a> for why and how to swap), this
       is the working code for it. simpler than the eInk version, since
       OLED has no refresh-rate limit to design around.
     </p>
@@ -65,7 +66,7 @@ const oledCodeContent = fs.readFileSync(
       <pre><code id="oled-code-content">{oledCodeContent}</code></pre>
     </div>
     <p>
-      <a class="btn" href="/tiny_soft_computer_oled_code.py" download>download OLED code.py</a>
+      <a class="btn" href={p('/tiny_soft_computer_oled_code.py')} download>download OLED code.py</a>
     </p>
   </section>
 
@@ -85,7 +86,7 @@ const oledCodeContent = fs.readFileSync(
       <li><code>adafruit_display_text</code> (folder), same one, shared by both versions</li>
     </ul>
 
-    <p>full install steps are on the <a href="/educators">educator setup guide</a>.</p>
+    <p>full install steps are on the <a href={p('/educators')}>educator setup guide</a>.</p>
   </section>
 
   <script is:inline>

@@ -1,4 +1,5 @@
 ---
+import { p } from '../lib/url.js';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
@@ -12,7 +13,7 @@ import Layout from '../layouts/Layout.astro';
     <h1>your kit is ready. you're just here to make it yours.</h1>
     <img
       class="step-image"
-      src="/images/kit-overview.png"
+      src={p('/images/kit-overview.png')}
       alt="Everything in a tiny soft computer kit: a Feather RP2040 ThinkInk board, a 24-pin flexible eInk display already showing tiny soft computer, two alligator clip wires, a USB-C cable, and two tactile buttons."
     >
     <p class="lede">
@@ -33,7 +34,7 @@ import Layout from '../layouts/Layout.astro';
     </ul>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <span class="tag">part one</span>
@@ -47,12 +48,12 @@ import Layout from '../layouts/Layout.astro';
     <h3>seat the display</h3>
     <img
       class="step-image"
-      src="/images/hardware-step-0.png"
+      src={p('/images/hardware-step-0.png')}
       alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
     >
     <img
       class="step-image"
-      src="/images/inserting-display-closeup.png"
+      src={p('/images/inserting-display-closeup.png')}
       alt="A closer look at the display connector on the Feather board, showing where the ribbon cable seats into the docking port."
     >
     <p>
@@ -70,12 +71,12 @@ import Layout from '../layouts/Layout.astro';
     <h3>wire the button</h3>
     <img
       class="step-image"
-      src="/images/hardware-step-1.png"
+      src={p('/images/hardware-step-1.png')}
       alt="Step 1: wrap the wire at the end of the alligator clips around microcontroller pins labeled GND and A2. Make sure they're secure and not touching other pads."
     >
     <img
       class="step-image"
-      src="/images/pins-closeup.png"
+      src={p('/images/pins-closeup.png')}
       alt="A labeled close-up of the A2 and GND pins on the Feather board, with wires already connected, for reference while wiring."
     >
     <ol class="steps">
@@ -98,7 +99,7 @@ import Layout from '../layouts/Layout.astro';
     <h3>the finished setup</h3>
     <img
       class="step-image"
-      src="/images/finished-setup.png"
+      src={p('/images/finished-setup.png')}
       alt="A fully wired tiny soft computer: display connected and showing 'tiny soft computer, press the button to begin', button wired via yellow and green alligator clips to the A2 and GND pins, USB-C cable attached."
     >
     <p class="note">
@@ -107,7 +108,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <span class="tag">part two</span>
@@ -122,7 +123,7 @@ import Layout from '../layouts/Layout.astro';
     <h3>opening your code</h3>
     <img
       class="step-image"
-      src="/images/mu-editor-open.png"
+      src={p('/images/mu-editor-open.png')}
       alt="Mu Editor open with code.py loaded, showing the file's imports and the start of the content list of messages and ASCII art."
     >
     <ol class="steps">
@@ -149,19 +150,19 @@ import Layout from '../layouts/Layout.astro';
     </ol>
     <p class="note">
       want to see the full code with syntax and comments explained? the
-      <a href="/code">code page</a> has the whole file, with a copy
+      <a href={p('/code')}>code page</a> has the whole file, with a copy
       button if you want to grab it.
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <span class="tag">part three</span>
     <h2>fabrication: build and decorate your tiny soft computer</h2>
     <img
       class="step-image"
-      src="/images/cardboard-enclosure.png"
+      src={p('/images/cardboard-enclosure.png')}
       alt="The kit's cardboard box, cut and folded into a small enclosure with a window for the display, held in someone's hand."
     >
     <p class="note" style="margin-top: -0.6rem;">
@@ -169,7 +170,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
     <p>
       this is the open-ended part, and the one with no fixed steps. see
-      <a href="/fabrication">fabrication</a> for materials and a starting
+      <a href={p('/fabrication')}>fabrication</a> for materials and a starting
       technique, but the form itself is yours to decide.
     </p>
     <ul class="plain">
@@ -198,7 +199,7 @@ import Layout from '../layouts/Layout.astro';
       <div>
         <img
           class="step-image"
-          src="/images/fabric-example.png"
+          src={p('/images/fabric-example.png')}
           alt="A tiny soft computer mounted on pink and white striped fabric stretched in a teal embroidery hoop, wired with yellow and green alligator clips."
         >
         <p class="note" style="margin-top: -0.6rem;">
@@ -208,7 +209,7 @@ import Layout from '../layouts/Layout.astro';
       <div>
         <img
           class="step-image"
-          src="/images/packaging-example.png"
+          src={p('/images/packaging-example.png')}
           alt="A tiny soft computer's components resting on pink bubble wrap packaging material."
         >
         <p class="note" style="margin-top: -0.6rem;">
@@ -218,7 +219,7 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <h2>take the zine with you</h2>
@@ -227,9 +228,9 @@ import Layout from '../layouts/Layout.astro';
       the SOFTER residency. grab whichever version is useful to you.
     </p>
     <p>
-      <a class="btn" href="/zine/softer-zine-web.pdf" target="_blank" rel="noopener">read the zine (screen version) →</a>
+      <a class="btn" href={p('/zine/softer-zine-web.pdf')} target="_blank" rel="noopener">read the zine (screen version) →</a>
       &nbsp;
-      <a class="btn" href="/zine/softer-zine-print.pdf" download>download for printing →</a>
+      <a class="btn" href={p('/zine/softer-zine-print.pdf')} download>download for printing →</a>
     </p>
     <p class="note">
       the screen version is laid out for reading on a phone or laptop.
@@ -238,7 +239,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <h2>a quick note on patience</h2>
@@ -246,7 +247,7 @@ import Layout from '../layouts/Layout.astro';
       the display can only redraw itself once every 180 seconds
       (3 minutes), that's the manufacturer's own spec for this exact
       panel, not something broken. press the button once, then let it
-      be. more on why in <a href="/about">about</a>.
+      be. more on why in <a href={p('/about')}>about</a>.
     </p>
   </section>
 

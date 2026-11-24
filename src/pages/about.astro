@@ -1,4 +1,5 @@
 ---
+import { p } from '../lib/url.js';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
@@ -20,7 +21,7 @@ import Layout from '../layouts/Layout.astro';
 
    <img
       class="step-image"
-      src="/images/computers.png"
+      src={p('/images/computers.png')}
       alt="two alternative interfaces for computers"
     >
     <p class="note" style="margin-top: -0.6rem;">
@@ -47,7 +48,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <h2>references</h2>
@@ -95,7 +96,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <h2>a limit we chose to keep</h2>
@@ -115,7 +116,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <h2>the facilitators</h2>

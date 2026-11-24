@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/tiny/:path*", "destination": "/:path*" }
+  ],
+  "redirects": [
+    {
+      "source": "/:path((?!tiny(?:/|$)).*)",
+      "has": [{ "type": "host", "value": "tiny-soft-computer.vercel.app" }],
+      "destination": "https://thesoft.computer/tiny/:path",
+      "permanent": true
+    }
+  ]
+}

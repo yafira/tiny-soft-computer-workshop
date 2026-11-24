@@ -1,13 +1,19 @@
 ---
+import { p } from '../lib/url.js';
 import '../styles/global.css';
 
 export interface Props {
   title: string;
   description: string;
   active: 'home' | 'workshop' | 'fabrication' | 'educators' | 'resources' | 'code' | 'about';
+  image?: string;
 }
 
-const { title, description, active } = Astro.props;
+const { title, description, active, image = '/og-image.png' } = Astro.props;
+
+// needs `site` set in astro.config.mjs so these come out as absolute urls
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(p(image), Astro.site).href;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -16,19 +22,35 @@ const { title, description, active } = Astro.props;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
 <meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tiny soft computer">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:image" content={ogImage}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="a tiny soft computer kit on pink: an e-ink screen reading 'tiny soft computer', a microcontroller, two buttons, and a usb-c cable">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={ogImage}>
 </head>
 <body>
 
 <nav class="site-nav">
   <div class="wrap">
-    <a class="brand" href="/">tiny soft computer</a>
+    <a class="brand" href={p('/')}>tiny soft computer</a>
     <ul>
-      <li><a href="/" aria-current={active === 'home' ? 'page' : undefined}>home</a></li>
-      <li><a href="/workshop" aria-current={active === 'workshop' ? 'page' : undefined}>workshop day</a></li>
-      <li><a href="/fabrication" aria-current={active === 'fabrication' ? 'page' : undefined}>fabrication</a></li>
-      <li><a href="/educators" aria-current={active === 'educators' ? 'page' : undefined}>for educators</a></li>
-      <li><a href="/code" aria-current={active === 'code' ? 'page' : undefined}>code</a></li>
-      <li><a href="/about" aria-current={active === 'about' ? 'page' : undefined}>about</a></li>
+      <li><a href={p('/')} aria-current={active === 'home' ? 'page' : undefined}>home</a></li>
+      <li><a href={p('/workshop')} aria-current={active === 'workshop' ? 'page' : undefined}>workshop day</a></li>
+      <li><a href={p('/fabrication')} aria-current={active === 'fabrication' ? 'page' : undefined}>fabrication</a></li>
+      <li><a href={p('/educators')} aria-current={active === 'educators' ? 'page' : undefined}>for educators</a></li>
+      <li><a href={p('/code')} aria-current={active === 'code' ? 'page' : undefined}>code</a></li>
+      <li><a href={p('/about')} aria-current={active === 'about' ? 'page' : undefined}>about</a></li>
     </ul>
   </div>
 </nav>

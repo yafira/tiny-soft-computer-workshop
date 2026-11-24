@@ -1,4 +1,5 @@
 ---
+import { p } from '../lib/url.js';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
@@ -16,13 +17,13 @@ import Layout from '../layouts/Layout.astro';
       see any of this. by the time someone sits down at the workshop, their
       kit is already fully preloaded and working. all they do is tweak the
       code, wire the button, and build their enclosure, see
-      <a href="/workshop">workshop day</a> for that shorter version.
+      <a href={p('/workshop')}>workshop day</a> for that shorter version.
     </p>
     <p class="lede">
       what you'll need: an Adafruit RP2040 Feather ThinkInk, a 2.13" 212×104
       flexible monochrome eInk display (ILI0373 chipset), a USB-C cable,
       and a computer to program from. for a full parts list and
-      alternatives, see <a href="/resources">resources</a>.
+      alternatives, see <a href={p('/resources')}>resources</a>.
     </p>
   </section>
 
@@ -37,7 +38,7 @@ import Layout from '../layouts/Layout.astro';
       <li>disconnect the eInk display before entering bootloader mode, for every board.</li>
       <li>flash CircuitPython 10.x, if it isn't already installed.</li>
       <li>copy <code>lib/adafruit_il0373.mpy</code> and <code>lib/adafruit_display_text/</code> onto the board.</li>
-      <li>copy the final <a href="/code">code.py</a> onto the board.</li>
+      <li>copy the final <a href={p('/code')}>code.py</a> onto the board.</li>
       <li>reconnect the display and test: the intro screen should appear, press the button once, and confirm it starts cycling through messages with the countdown printing on the serial console.</li>
     </ol>
     <p class="note">
@@ -56,12 +57,12 @@ import Layout from '../layouts/Layout.astro';
     </p>
     <img
       class="step-image"
-      src="/images/hardware-step-0.png"
+      src={p('/images/hardware-step-0.png')}
       alt="Step 0: using the latches on the microcontroller's docking port, insert the display's ribbon cable and close the latches to secure it."
     >
     <img
       class="step-image"
-      src="/images/inserting-display-closeup.png"
+      src={p('/images/inserting-display-closeup.png')}
       alt="A closer look at the display connector on the Feather board, showing where the ribbon cable seats into the docking port."
     >
     <p class="note">
@@ -134,7 +135,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
     <ol class="steps">
       <li>if you don't already have a code editor for CircuitPython, install <a href="https://codewith.mu/en/download">Mu Editor</a>, a free, beginner-friendly editor built specifically for it. you'll use it to edit and paste in code, and to view the serial console (see <a href="#serial-monitor">using the serial monitor</a> below).</li>
-      <li>copy <a href="/code">the code</a> onto your CIRCUITPY drive as <code>code.py</code>, replacing whatever was there. (use the copy button on the code page to grab the whole file at once.)</li>
+      <li>copy <a href={p('/code')}>the code</a> onto your CIRCUITPY drive as <code>code.py</code>, replacing whatever was there. (use the copy button on the code page to grab the whole file at once.)</li>
       <li>the board should auto-run it. if not, press reset once.</li>
       <li>watch the serial console as it runs, it prints its progress at each step.</li>
       <li>wait for "refresh complete" before judging what's on screen. e-ink flickers through intermediate frames mid-refresh, this can look like smudging and is completely normal.</li>
@@ -145,12 +146,12 @@ import Layout from '../layouts/Layout.astro';
     <h2>hardware: where things connect</h2>
     <img
       class="step-image"
-      src="/images/hardware-step-1.png"
+      src={p('/images/hardware-step-1.png')}
       alt="Step 1: wrap the wire at the end of the alligator clips around microcontroller pins labeled GND and A2. Make sure they're secure and not touching other pads."
     >
     <img
       class="step-image"
-      src="/images/pins-closeup.png"
+      src={p('/images/pins-closeup.png')}
       alt="A labeled close-up of the A2 and GND pins on the Feather board, with wires already connected."
     >
     <p>
@@ -188,7 +189,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
   </section>
 
-  <div class="divider"><img class="divider-icon" src="/images/blossom-divider.png" alt=""></div>
+  <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
     <h2>troubleshooting notes</h2>
@@ -290,7 +291,7 @@ import Layout from '../layouts/Layout.astro';
         the current OLED code handles this automatically: it scans the
         I2C bus at startup and uses whichever address actually responds,
         so this shouldn't come up if attendees are running the latest
-        version from the <a href="/code">code page</a>.
+        version from the <a href={p('/code')}>code page</a>.
       </p>
       <p>
         if it does come up anyway, it almost always means the STEMMA QT
@@ -324,7 +325,7 @@ i2c.unlock()</code></pre>
     </p>
     <p>
       for a full parts list and classroom-friendly alternatives, see
-      <a href="/resources">resources</a>.
+      <a href={p('/resources')}>resources</a>.
     </p>
   </section>
 

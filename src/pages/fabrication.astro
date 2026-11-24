@@ -1,4 +1,5 @@
 ---
+import { p } from '../lib/url.js';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
@@ -12,7 +13,7 @@ import Layout from '../layouts/Layout.astro';
     <h1>the form is yours to decide</h1>
     <img
       class="step-image"
-      src="/images/enclosure-example.png"
+      src={p('/images/enclosure-example.png')}
       alt="A finished tiny soft computer enclosure, hand-knit in soft grey yarn, with the eInk screen and a button on an alligator clip visible through the knit fabric."
     >
     <p class="note" style="margin-top: -0.6rem;">
@@ -20,7 +21,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
      <img
       class="step-image"
-      src="/images/bubble-tsc.png"
+      src={p('/images/bubble-tsc.png')}
       alt="A finished tiny soft computer enclosure, using pink bubble wrap, with the eInk screen and a button on an alligator clip visible through the wrap."
     >
     <p class="note" style="margin-top: -0.6rem;">
@@ -28,7 +29,7 @@ import Layout from '../layouts/Layout.astro';
     </p>
      <img
       class="step-image"
-      src="/images/crafty-tsc.png"
+      src={p('/images/crafty-tsc.png')}
       alt="A finished tiny soft computer enclosure, crafted with various soft materials and embroidery hoop, with the eInk screen and a button on an alligator clips."
     >
     <p><i>yours doesn't have to

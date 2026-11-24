@@ -1,4 +1,5 @@
 ---
+import { p } from '../lib/url.js';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout
@@ -75,7 +76,7 @@ import Layout from '../layouts/Layout.astro';
       <li>a laptop or computer to run Mu Editor</li>
       <li><a href="https://codewith.mu/en/download">Mu Editor</a>, free, works on Mac, Windows, and Linux</li>
       <li>scissors, an xacto knife, or similar for the enclosure</li>
-      <li>felt, fabric, cardboard, or other materials for fabrication (see <a href="/fabrication">fabrication</a>)</li>
+      <li>felt, fabric, cardboard, or other materials for fabrication (see <a href={p('/fabrication')}>fabrication</a>)</li>
     </ul>
   </section>
 
@@ -83,7 +84,7 @@ import Layout from '../layouts/Layout.astro';
     <h2>alternatives</h2>
     <p>
       the flexible eInk display has a real hardware limit: it can only
-      redraw once every 180 seconds (see <a href="/about">about</a> for
+      redraw once every 180 seconds (see <a href={p('/about')}>about</a> for
       why). if that pacing doesn't fit your classroom's timing, or if
       the eInk display is out of stock, a monochrome OLED display swaps
       in cleanly on the exact same microcontroller.
@@ -92,12 +93,12 @@ import Layout from '../layouts/Layout.astro';
     <h3>OLED alternative: what to buy</h3>
     <img
       class="step-image"
-      src="/images/oled-326.png"
+      src={p('/images/oled-326.png')}
       alt="Adafruit Monochrome 0.96 inch 128x64 OLED Graphic Display with STEMMA QT connector, product 326."
     >
     <img
       class="step-image"
-      src="/images/stemma-qt-cable.png"
+      src={p('/images/stemma-qt-cable.png')}
       alt="A STEMMA QT / Qwiic 4-pin JST-SH cable, the only wire needed to connect the OLED to the Feather's built-in STEMMA QT port."
     >
     <p class="note" style="margin-top: -0.6rem;">
@@ -158,7 +159,7 @@ import Layout from '../layouts/Layout.astro';
       <li>each button press can show a new random message immediately, rather than the eInk version's one-press-starts-a-forever-loop approach</li>
     </ul>
     <p>
-      <a class="btn" href="/tiny_soft_computer_oled_code.py" download>download the working OLED code.py</a>
+      <a class="btn" href={p('/tiny_soft_computer_oled_code.py')} download>download the working OLED code.py</a>
     </p>
     <p class="note">
       this project's earliest prototype was actually built on this exact
