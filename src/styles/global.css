@@ -140,11 +140,30 @@ nav.site-nav {
 }
 
 nav.site-nav .nav-doodle {
-  display: block;
   width: 100%;
   max-width: 11rem;
-  height: auto;
   margin: -0.4rem 0 1rem;
+}
+
+nav.site-nav .nav-doodle svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+nav.site-nav .nav-doodle .cloud,
+nav.site-nav .nav-doodle .boot {
+  transition: fill 0.35s ease;
+}
+
+@media (hover: hover) {
+  nav.site-nav .nav-doodle:hover .cloud {
+    fill: #f2edfb;
+  }
+
+  nav.site-nav .nav-doodle:hover .boot {
+    fill: #f4cf5c;
+  }
 }
 
 nav.site-nav .brand {

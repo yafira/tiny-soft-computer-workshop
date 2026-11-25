@@ -1,4 +1,5 @@
 ---
+import doodle from '../assets/soft-computer-doodle.svg?raw';
 import { p } from '../lib/url.js';
 import '../styles/global.css';
 
@@ -82,7 +83,7 @@ const navItems = [
 <div class="shell">
   <nav class="site-nav" aria-label="site">
     <a class="brand" href={p('/')}>tiny soft c<span class="flower" style={`--flower: url(${p('/images/blossom-divider.png')})`}>o</span>mputer</a>
-    <img class="nav-doodle" src={p('/images/soft-computer-doodle.svg')} alt="" width="250" height="190" aria-hidden="true" />
+    <div class="nav-doodle" aria-hidden="true"><Fragment set:html={doodle} /></div>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-pages" aria-label="menu">
       <svg viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8">
         <path class="bars" d="M3 6h16M3 11h16M3 16h16" />
