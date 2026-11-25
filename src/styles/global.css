@@ -156,6 +156,12 @@ nav.site-nav .nav-doodle .boot {
   transition: fill 0.35s ease;
 }
 
+nav.site-nav .nav-doodle .bolt {
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
 @media (hover: hover) {
   nav.site-nav .nav-doodle:hover .cloud {
     fill: #f2edfb;
@@ -163,6 +169,11 @@ nav.site-nav .nav-doodle .boot {
 
   nav.site-nav .nav-doodle:hover .boot {
     fill: #f4cf5c;
+  }
+
+  nav.site-nav .nav-doodle:hover .bolt {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -221,8 +232,8 @@ nav.site-nav .flower::after {
   position: absolute;
   left: 50%;
   top: 56%;
-  width: 0.82em;
-  height: 0.82em;
+  width: 0.68em;
+  height: 0.68em;
   transform: translate(-50%, -52%);
   background: var(--flower) center / contain no-repeat;
 }
