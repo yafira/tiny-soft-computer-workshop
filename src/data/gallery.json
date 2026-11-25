@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "src": "/gallery/heart.jpg",
+    "alt": "a tiny soft computer set into a stuffed heart with grey stitching and a red gingham bow, screen reading \"you can start again tomorrow\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/castle.jpg",
+    "alt": "a tiny soft computer in a corrugated paper cup cut into a castle tower, screen reading \"tiny soft computer, press button, give it a moment\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/felt.jpg",
+    "alt": "a pink felt tiny soft computer stitched with turquoise thread, screen reading \"what has drifted in time? what do you want to safekeep?\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/moth.jpg",
+    "alt": "a lavender tulle pouch with a scalloped pink felt frame around the screen, showing a moth and \"name the thing that pulled you back to the screen\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/woven.jpg",
+    "alt": "a tiny soft computer wrapped in woven strips of blue, orange and navy fabric, screen reading \"ready...set...go....\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/velvet.jpg",
+    "alt": "a tiny soft computer in crushed purple velvet with green stitching, screen reading \"write, write, write\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/star.jpg",
+    "alt": "a star-shaped tiny soft computer in light blue fabric with blue stitching, screen reading \"bet on yourself\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/silk.jpg",
+    "alt": "a tiny soft computer resting on hand-dyed purple and pink silk, screen reading \"tiny soft computer, press button, give it a moment\"",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/build.jpg",
+    "alt": "a tiny soft computer in progress on mint green fabric with two blue patches, a button and alligator clips, screen showing a small face",
+    "place": "softer, denmark"
+  },
+  {
+    "src": "/gallery/kit.jpg",
+    "alt": "an open pink box holding a tiny soft computer on black fabric above tulle and yarn pom poms, screen showing a smiling face",
+    "place": "softer, denmark"
+  }
+]

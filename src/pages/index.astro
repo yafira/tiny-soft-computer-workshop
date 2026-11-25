@@ -10,7 +10,7 @@ import Gallery from '../components/Gallery.astro';
 >
 
   <section class="hero">
-    <p class="kicker">alannabean × electrocute — a workshop</p>
+    <p class="kicker">alannabean × electrocute — a tiny (and soft) workshop</p>
     <h1>a computer doesn't have to look or behave the way you expect.</h1>
     <p class="lede">
       a 3-hour hands-on workshop on making, and teaching, soft electronics.
@@ -29,8 +29,6 @@ import Gallery from '../components/Gallery.astro';
       <a class="btn" href={p('/educators')}>setting up as an educator →</a>
     </p>
   </section>
-
-  <Gallery />
 
   <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
@@ -71,6 +69,8 @@ import Gallery from '../components/Gallery.astro';
     </p>
   </section>
 
+  <Gallery />
+
   <div class="divider"><img class="divider-icon" src={p('/images/blossom-divider.png')} alt=""></div>
 
   <section class="block">
@@ -78,10 +78,12 @@ import Gallery from '../components/Gallery.astro';
     <ul class="plain">
       <li><a href={p('/workshop')}>workshop day</a> — what attendees actually do, hardware, software, fabrication</li>
       <li><a href={p('/fabrication')}>fabrication</a> — materials and starting points for your enclosure</li>
+      <li><a href={p('/faq')}>faq</a> — safety, power, batteries, and what to do if something stops working</li>
       <li><a href={p('/educators')}>for educators</a> — full setup guide, prep work, troubleshooting</li>
       <li><a href={p('/code')}>the code</a> — the full working code.py, ready to copy or tweak</li>
       <li><a href={p('/resources')}>resources</a> — bill of materials, pricing, and alternatives</li>
       <li><a href={p('/zine/softer-zine-web.pdf')} target="_blank" rel="noopener">the zine</a> — a short read on the workshop and the ideas behind it</li>
+      <li><a href={p('/gallery')}>gallery</a> — tiny soft computers made by people around the world</li>
       <li><a href={p('/about')}>about</a> — pedagogy, references, and why the display waits 180 seconds</li>
     </ul>
   </section>

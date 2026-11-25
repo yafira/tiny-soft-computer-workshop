@@ -1,98 +1,101 @@
 ---
-// add photos to public/gallery/ and list them in src/data/gallery.json:
-// { "src": "/gallery/name.jpg", "alt": "what it looks like", "by": "first name (optional)" }
+// a few random photos from src/data/gallery.json, reshuffled on every visit
+// the first few are in the html so it still works without js
+// add photos to public/gallery/ and list them in the json:
+// { "src": "/gallery/name.jpg", "alt": "what it looks like" }
+// photos show without captions, so alt text is the only text that matters here
 import items from '../data/gallery.json';
+import GalleryInvite from './GalleryInvite.astro';
 import { p } from '../lib/url.js';
----
-{items.length > 0 && (
-  <section class="block gallery" aria-label="tiny soft computers made by workshop participants">
-    <span class="tag">made at softer</span>
-    <h2>what everyone made</h2>
-    <p>
-      same kit, 16 different ideas of what a tiny soft computer could be.
-    </p>
 
-    <div class="gallery-wrap">
-      <ul class="gallery-track" tabindex="0" aria-label="photo carousel, scroll sideways">
-        {items.map((item) => (
+const SHOW = 6;
+const all = items.map((item) => ({
+  src: p(item.src),
+  alt: item.alt,
+}));
+const first = all.slice(0, SHOW);
+---
+<section class="block gallery" aria-labelledby="gallery-title">
+  <span class="tag">around the world</span>
+  <h2 id="gallery-title">tiny soft computers around the world</h2>
+
+  {items.length > 0 && (
+    <>
+      <p>same kit, a lot of different ideas of what a tiny soft computer could be.</p>
+
+      <ul class="gallery-grid" data-items={JSON.stringify(all)} data-show={SHOW}>
+        {first.map((item) => (
           <li class="gallery-item">
-            <img src={p(item.src)} alt={item.alt} loading="lazy" decoding="async" />
-            {item.by && <span class="gallery-by">{item.by}</span>}
+            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
           </li>
         ))}
       </ul>
-      <button class="gallery-btn prev" type="button" aria-label="previous photo">←</button>
-      <button class="gallery-btn next" type="button" aria-label="next photo">→</button>
-    </div>
-  </section>
-)}
 
-<style>
+      <p class="gallery-more">
+        <a class="btn" href={p('/gallery')}>see all <svg class="see-icon" viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 13L13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.6" /></svg></a>
+      </p>
+    </>
+  )}
+
+  <GalleryInvite />
+</section>
+
+<style is:global>
+  .gallery h2,
   .gallery p {
     text-wrap: balance;
   }
-  .gallery-wrap {
-    position: relative;
-    margin-top: 1.2rem;
-  }
-  .gallery-track {
+  .gallery-grid {
     list-style: none;
-    margin: 0;
-    padding: 0 0 0.6rem;
-    display: flex;
-    gap: 0.9rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem 1rem;
+  }
+  @media (min-width: 40rem) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
   .gallery-item {
-    flex: 0 0 min(78%, 20rem);
-    scroll-snap-align: start;
     margin: 0;
   }
   .gallery-item img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     border: 1px solid var(--rule);
     border-radius: 6px;
     background: var(--paper-dim);
   }
-  .gallery-by {
-    display: block;
-    margin-top: 0.35rem;
-    font-size: 0.8rem;
-    color: var(--ink-soft);
+  .gallery-more {
+    margin-top: 1.2rem;
   }
-  .gallery-btn {
-    position: absolute;
-    top: calc(50% - 1.5rem);
-    width: 2.4rem;
-    height: 2.4rem;
-    border: 1px solid var(--ink);
-    border-radius: 50%;
-    background: var(--paper);
-    color: var(--ink);
-    font: inherit;
-    cursor: pointer;
-  }
-  .gallery-btn:hover {
-    background: var(--mustard-dim);
-  }
-  .gallery-btn.prev { left: -0.6rem; }
-  .gallery-btn.next { right: -0.6rem; }
-  @media (max-width: 40rem) {
-    .gallery-btn { display: none; }
+  .see-icon {
+    margin-left: 0.3rem;
+    vertical-align: -1px;
   }
 </style>
 
 <script>
-  document.querySelectorAll('.gallery-wrap').forEach((wrap) => {
-    const track = wrap.querySelector('.gallery-track');
-    const step = () => track.clientWidth * 0.8;
-    wrap.querySelector('.prev')?.addEventListener('click', () => track.scrollBy({ left: -step() }));
-    wrap.querySelector('.next')?.addEventListener('click', () => track.scrollBy({ left: step() }));
+  // pick a random few each visit (fisher-yates)
+  document.querySelectorAll<HTMLElement>('.gallery-grid[data-items]').forEach((grid) => {
+    const all = JSON.parse(grid.dataset.items || '[]');
+    const show = Number(grid.dataset.show) || 4;
+    for (let i = all.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [all[i], all[j]] = [all[j], all[i]];
+    }
+    grid.querySelectorAll('.gallery-item').forEach((li, i) => {
+      const item = all[i];
+      if (!item) return;
+      const img = li.querySelector('img');
+      if (img) {
+        img.src = item.src;
+        img.alt = item.alt;
+      }
+    });
   });
 </script>

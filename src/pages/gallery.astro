@@ -1,0 +1,68 @@
+---
+import { p } from '../lib/url.js';
+import Layout from '../layouts/Layout.astro';
+import GalleryInvite from '../components/GalleryInvite.astro';
+import items from '../data/gallery.json';
+---
+<Layout
+  title="around the world — tiny soft computer"
+  description="tiny soft computers made by people at the workshop, and by anyone who has made one since."
+  active="gallery"
+>
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">around the world</p>
+    <h1>tiny soft computers around the world</h1>
+    <p class="lede" style="text-wrap: balance;">
+      same kit, a lot of different ideas of what a tiny soft computer could be.
+    </p>
+  </section>
+
+  <section class="block">
+    <ul class="all-grid">
+      {items.map((item) => (
+        <li>
+          <a href={p(item.src)} target="_blank" rel="noopener">
+            <img src={p(item.src)} alt={item.alt} loading="lazy" decoding="async" />
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <GalleryInvite />
+  </section>
+
+</Layout>
+
+<style>
+  .all-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 40rem) {
+    .all-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (min-width: 64rem) {
+    .all-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .all-grid li {
+    margin: 0;
+  }
+  .all-grid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--paper-dim);
+  }
+</style>

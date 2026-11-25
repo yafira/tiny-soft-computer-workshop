@@ -5,7 +5,7 @@ import '../styles/global.css';
 export interface Props {
   title: string;
   description: string;
-  active: 'home' | 'workshop' | 'fabrication' | 'educators' | 'resources' | 'code' | 'about';
+  active: 'home' | 'workshop' | 'fabrication' | 'educators' | 'resources' | 'code' | 'about' | 'gallery' | 'faq';
   image?: string;
 }
 
@@ -14,6 +14,44 @@ const { title, description, active, image = '/og-image.png' } = Astro.props;
 // needs `site` set in astro.config.mjs so these come out as absolute urls
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(p(image), Astro.site).href;
+// sections of every page for the side nav, read from the page source at build time
+const pageSources = import.meta.glob('../pages/*.astro', { query: '?raw', import: 'default', eager: true });
+const componentSources = import.meta.glob('../components/*.astro', { query: '?raw', import: 'default', eager: true });
+
+const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+const decode = (t) => t.replace(/&amp;/g, '&').replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ');
+
+function sectionsOf(file) {
+  let src = pageSources[`../pages/${file}.astro`] ?? '';
+  // headings inside components like <Gallery /> count too
+  src = src.replace(/<([A-Z]\w*)\s*\/>/g, (m, name) => componentSources[`../components/${name}.astro`] ?? '');
+  const taken = new Set();
+  const out = [];
+  for (const m of src.matchAll(/<h2([^>]*)>([\s\S]*?)<\/h2>/g)) {
+    const text = decode(m[2].replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+    if (!text || text.includes('{')) continue;
+    let id = (m[1].match(/id="([^"]+)"/) || [])[1];
+    if (!id) {
+      id = slug(text);
+      while (taken.has(id)) id += '-x';
+    }
+    taken.add(id);
+    out.push({ id, text });
+  }
+  return out;
+}
+
+const navItems = [
+  { key: 'home', file: 'index', url: '/', label: 'home' },
+  { key: 'workshop', file: 'workshop', url: '/workshop', label: 'workshop day' },
+  { key: 'fabrication', file: 'fabrication', url: '/fabrication', label: 'fabrication' },
+  { key: 'educators', file: 'educators', url: '/educators', label: 'for educators' },
+  { key: 'faq', file: 'faq', url: '/faq', label: 'faq' },
+  { key: 'code', file: 'code', url: '/code', label: 'code' },
+  { key: 'about', file: 'about', url: '/about', label: 'about' },
+  { key: 'gallery', file: 'gallery', url: '/gallery', label: 'gallery' },
+].map((item) => ({ ...item, sections: sectionsOf(item.file) }));
+
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -41,30 +79,144 @@ const ogImage = new URL(p(image), Astro.site).href;
 </head>
 <body>
 
-<nav class="site-nav">
-  <div class="wrap">
-    <a class="brand" href={p('/')}>tiny soft computer</a>
-    <ul>
-      <li><a href={p('/')} aria-current={active === 'home' ? 'page' : undefined}>home</a></li>
-      <li><a href={p('/workshop')} aria-current={active === 'workshop' ? 'page' : undefined}>workshop day</a></li>
-      <li><a href={p('/fabrication')} aria-current={active === 'fabrication' ? 'page' : undefined}>fabrication</a></li>
-      <li><a href={p('/educators')} aria-current={active === 'educators' ? 'page' : undefined}>for educators</a></li>
-      <li><a href={p('/code')} aria-current={active === 'code' ? 'page' : undefined}>code</a></li>
-      <li><a href={p('/about')} aria-current={active === 'about' ? 'page' : undefined}>about</a></li>
+<div class="shell">
+  <nav class="site-nav" aria-label="site">
+    <a class="brand" href={p('/')}>tiny soft c<span class="flower" style={`--flower: url(${p('/images/blossom-divider.png')})`}>o</span>mputer</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-pages" aria-label="menu">
+      <svg viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path class="bars" d="M3 6h16M3 11h16M3 16h16" />
+        <path class="cross" d="M5 5l12 12M17 5L5 17" />
+      </svg>
+    </button>
+    <button class="nav-all" type="button">expand all</button>
+    <ul class="pages" id="site-pages">
+      {navItems.map((item) => {
+        const here = active === item.key;
+        const many = item.sections.length > 1;
+        return (
+          <li>
+            <div class="row">
+              <a href={p(item.url)} aria-current={here ? 'page' : undefined}>{item.label}</a>
+              {many && (
+                <button
+                  class="chev"
+                  type="button"
+                  aria-expanded={here ? 'true' : 'false'}
+                  aria-controls={`toc-${item.key}`}
+                  aria-label={`sections of ${item.label}`}
+                >›</button>
+              )}
+            </div>
+            {many && (
+              <ul class="toc" id={`toc-${item.key}`} hidden={!here}>
+                {item.sections.map((sec) => (
+                  <li><a href={`${p(item.url)}#${sec.id}`}>{sec.text}</a></li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })}
     </ul>
-  </div>
-</nav>
+  </nav>
+  <noscript>
+    <style>
+      nav.site-nav ul.toc[hidden] { display: block; }
+      nav.site-nav .chev, nav.site-nav .nav-all, nav.site-nav .menu-btn { display: none; }
+      @media (max-width: 64rem) { nav.site-nav ul.pages { display: block; } }
+    </style>
+  </noscript>
 
-<main class="wrap">
-  <slot />
-</main>
+  <div class="content">
+    <main>
+      <slot />
+    </main>
 
-<footer>
-  <div class="wrap">
-    tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
-    and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
+    <footer>
+      tiny soft computer — a workshop by <a href="https://instagram.com/alannabean">alannabean</a>
+      and <a href="https://instagram.com/electrocutelab">electrocutelab</a>
+    </footer>
   </div>
-</footer>
+</div>
+
+<script>
+  const slug = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+
+  // give every h2 an id, same rule the build used for the side nav links
+  const heads = Array.from(document.querySelectorAll('main h2'));
+  const taken = new Set();
+  heads.forEach((h) => {
+    if (!h.id) {
+      let id = slug(h.textContent || '');
+      while (taken.has(id) || document.getElementById(id)) id += '-x';
+      h.id = id;
+    }
+    taken.add(h.id);
+  });
+
+  // collapse and expand the sections in the side nav
+  const nav = document.querySelector('nav.site-nav');
+  const chevs = Array.from(nav ? nav.querySelectorAll('.chev') : []);
+  const allBtn = nav ? nav.querySelector('.nav-all') : null;
+  const setOpen = (btn, open) => {
+    btn.setAttribute('aria-expanded', String(open));
+    const list = document.getElementById(btn.getAttribute('aria-controls') || '');
+    if (list) list.hidden = !open;
+  };
+  const allOpen = () => chevs.every((b) => b.getAttribute('aria-expanded') === 'true');
+  const sync = () => {
+    if (allBtn) allBtn.textContent = allOpen() ? 'collapse all' : 'expand all';
+  };
+  chevs.forEach((b) =>
+    b.addEventListener('click', () => {
+      setOpen(b, b.getAttribute('aria-expanded') !== 'true');
+      sync();
+    })
+  );
+  if (allBtn) {
+    if (!chevs.length) allBtn.remove();
+    allBtn.addEventListener('click', () => {
+      const open = !allOpen();
+      chevs.forEach((b) => setOpen(b, open));
+      sync();
+    });
+  }
+  sync();
+
+  // phone menu
+  const menuBtn = nav ? nav.querySelector('.menu-btn') : null;
+  if (nav && menuBtn) {
+    const setMenu = (open) => {
+      nav.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'close menu' : 'menu');
+    };
+    menuBtn.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setMenu(false);
+    });
+  }
+
+  // mark the section you are reading
+  const current = nav ? nav.querySelector('a[aria-current="page"]') : null;
+  const links = new Map();
+  if (current) {
+    current.closest('li')?.querySelectorAll('ul.toc a').forEach((a) => {
+      links.set((a.getAttribute('href') || '').split('#')[1], a);
+    });
+  }
+  const mark = () => {
+    let on = null;
+    heads.forEach((h) => {
+      if (h.getBoundingClientRect().top < window.innerHeight * 0.35) on = h.id;
+    });
+    links.forEach((a, id) => a.classList.toggle('on', id === on));
+  };
+  if (links.size) {
+    window.addEventListener('scroll', mark, { passive: true });
+    mark();
+  }
+</script>
 
 </body>
 </html>

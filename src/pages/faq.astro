@@ -1,0 +1,188 @@
+---
+import { p } from '../lib/url.js';
+import Layout from '../layouts/Layout.astro';
+---
+<Layout
+  title="faq — tiny soft computer"
+  description="common questions about the tiny soft computer kit: safety, fire risk, power and batteries, and what to do if something stops working."
+  active="faq"
+>
+
+  <section class="hero" style="padding-top: 2.5rem;">
+    <p class="kicker">faq</p>
+    <h1>questions, answered.</h1>
+    <p class="lede" style="text-wrap: balance;">
+      what the kit can and can't do, and how to keep it (and you) safe while you make something with it.
+    </p>
+  </section>
+
+  <section class="block faq">
+    <h2>safety</h2>
+
+    <details open>
+      <summary>will this start a fire?</summary>
+      <p>
+        very unlikely. the kit runs on usb power, the same low-power usb you'd
+        plug a keyboard or a phone into, and the board itself runs at 3.3 volts.
+        it never touches wall power, there's no battery in the kit, and nothing
+        in it is built to get hot.
+      </p>
+      <p>
+        the one way to make it warm is a short circuit, which is power
+        connected straight to ground. the wiring in this workshop only uses
+        the pins marked <code>GND</code> and <code>A2</code>, and those are safe to touch
+        together: that's all the button does. keep alligator clips, bare wire
+        ends and loose conductive thread away from the other pins, especially
+        the ones marked <code>3V</code> and <code>USB</code>.
+      </p>
+      <p>
+        if anything smells odd, gets hot to the touch, or smokes, unplug it
+        right away.
+      </p>
+    </details>
+
+    <details>
+      <summary>what precautions should i take?</summary>
+      <ul class="plain">
+        <li>unplug the usb cable before you move the board or change any wiring.</li>
+        <li>before you plug in, look over the board: no stray strands of thread or wire, and no clip touching a pin it shouldn't.</li>
+        <li>plug into a laptop or a regular phone charger, with the cable from the kit or another one in good shape. skip frayed or bent cables.</li>
+        <li>the display keeps its image with no power, so you can unplug once your message is up. it doesn't need to stay plugged in.</li>
+        <li>leave the board a little room instead of packing it tight in batting, and keep the whole thing dry.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>is the display fragile?</summary>
+      <p>
+        it's thin and flexible, but it isn't tough. hold it by the edges, don't
+        fold or crease it, and don't force the ribbon into its connector. if it
+        won't slide in, stop and ask for help instead of pushing.
+      </p>
+    </details>
+
+    <details>
+      <summary>what about the sharp tools?</summary>
+      <p>
+        scissors, needles and craft knives are part of making an enclosure, so
+        the usual care applies. cut on a cutting mat and away from your hands,
+        and keep needles in a pincushion instead of loose on the table.
+      </p>
+    </details>
+  </section>
+
+  <section class="block faq">
+    <h2>power and batteries</h2>
+
+    <details>
+      <summary>does it need wall power or a battery?</summary>
+      <p>
+        neither. the kit is powered over usb-c from a computer or a phone
+        charger, and that's how the workshop is set up.
+      </p>
+    </details>
+
+    <details>
+      <summary>can i add a battery to make it portable?</summary>
+      <p>
+        a battery isn't part of this kit or the workshop. the board does have a
+        battery connector, and lithium batteries are the one thing around here
+        that can genuinely start a fire, so if you try it:
+      </p>
+      <ul class="plain">
+        <li>use a lithium polymer battery made for this board, and check the plug's polarity against the markings on the board before connecting. the same plug can be wired backwards on batteries from different makers.</li>
+        <li>never use one that's puffy, dented or punctured, and keep it away from needles and scissors.</li>
+        <li>don't charge it unattended.</li>
+      </ul>
+    </details>
+
+    <details>
+      <summary>does it connect to the internet?</summary>
+      <p>
+        no. there's no wifi or bluetooth on this board. it only shows the
+        messages written in its code, and it doesn't collect anything.
+      </p>
+    </details>
+  </section>
+
+  <section class="block faq">
+    <h2>the kit and the workshop</h2>
+
+    <details>
+      <summary>do i need to know how to code or solder?</summary>
+      <p>
+        no. every kit arrives preloaded and tested, and the wiring uses
+        alligator clips, so there's no soldering and no coding on workshop day.
+        you can change the messages later if you want to, in
+        <a href={p('/code')}>the code</a>.
+      </p>
+    </details>
+
+    <details>
+      <summary>can i wash it?</summary>
+      <p>
+        no, the electronics can't get wet. if you want a washable piece, make
+        the fabric cover removable so the board and display slide out.
+      </p>
+    </details>
+
+    <details>
+      <summary>something isn't working. what now?</summary>
+      <p>
+        the screen refreshes slowly on purpose, so give it a moment before you
+        decide it's broken. if it still doesn't respond, unplug it, check that
+        the clips are on <code>GND</code> and <code>A2</code>, and plug it back in. the
+        <a href={p('/educators')}>troubleshooting notes</a> cover the rest.
+        the <a href={p('/about')}>about page</a> explains why the wait is built in.
+      </p>
+    </details>
+
+    <details>
+      <summary>can i teach this myself?</summary>
+      <p>
+        yes. the <a href={p('/educators')}>educator guide</a>,
+        <a href={p('/code')}>code</a> and
+        <a href={p('/resources')}>parts list</a> are on this site for exactly that.
+      </p>
+    </details>
+  </section>
+
+</Layout>
+
+<style is:global>
+  .faq details {
+    border-top: 1px solid var(--rule);
+    padding: 1rem 0;
+  }
+  .faq details:last-of-type {
+    border-bottom: 1px solid var(--rule);
+  }
+  .faq summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-weight: 500;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: "+";
+    color: var(--lavender);
+  }
+  .faq details[open] summary::after {
+    content: "–";
+  }
+  .faq details > p,
+  .faq details > ul {
+    margin-top: 0.8rem;
+    margin-bottom: 0;
+    text-wrap: pretty;
+  }
+  .faq details > p + p,
+  .faq details > p + ul {
+    margin-top: 0.8rem;
+  }
+</style>
