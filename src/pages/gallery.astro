@@ -13,7 +13,7 @@ import items from '../data/gallery.json';
   <section class="hero" style="padding-top: 2.5rem;">
     <p class="kicker">around the world</p>
     <h1>tiny soft computers around the world</h1>
-    <p class="lede" style="text-wrap: balance;">
+    <p class="lede one-line" style="text-wrap: balance;">
       same kit, a lot of different ideas of what a tiny soft computer could be.
     </p>
   </section>
@@ -35,6 +35,12 @@ import items from '../data/gallery.json';
 </Layout>
 
 <style>
+  @media (min-width: 53rem) and (max-width: 64rem), (min-width: 80rem) {
+    .hero p.one-line {
+      max-width: none;
+      white-space: nowrap;
+    }
+  }
   .all-grid {
     list-style: none;
     margin: 0;
