@@ -139,6 +139,14 @@ nav.site-nav {
   padding: 2.5rem 0;
 }
 
+nav.site-nav .nav-doodle {
+  display: block;
+  width: 100%;
+  max-width: 11rem;
+  height: auto;
+  margin: -0.4rem 0 1rem;
+}
+
 nav.site-nav .brand {
   display: block;
   font-family: "Paper Mono", "IBM Plex Mono", monospace;
@@ -294,6 +302,10 @@ nav.site-nav ul.toc a.on {
 }
 
 @media (max-width: 64rem) {
+  nav.site-nav .nav-doodle {
+    display: none;
+  }
+
   .shell {
     display: block;
     max-width: calc(var(--max-w) + 3rem);
